@@ -1,10 +1,18 @@
-import * as express from "express";
+import { Router } from "express";
 
-const app = express();
+const serviceProviderRouter = Router();
 
-app.get("", (request, response) => {
-  console.log("Incoming Post Request - Create Service Provider");
-  // service_providers_table: id, name, create_time
+serviceProviderRouter.get("", (request, response) => {
+  console.log("Incoming GET Request - Create Service Provider");
+  return response.send("Incoming GET Request - List Client");
 });
 
-export default app;
+serviceProviderRouter.post("", (request, response) => {
+  console.log("Incoming Post Request - Create Service Provider");
+  console.log(request);
+  const { name } = request.body;
+  // service_providers_table: id, name, create_time
+  return response.send("Incoming POST Request - Create Client");
+});
+
+export default serviceProviderRouter;
