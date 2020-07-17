@@ -19,12 +19,15 @@ class CreateUserService {
     }: Request): Promise<User> {
         const usersRepository = getRepository(User);
 
-        const checkUserExists = usersRepository.findOne({
+        const checkUserExists = await usersRepository.findOne({
             where: { email },
         });
 
+        console.log(checkUserExists);
+
         // Internal error: generates no http response
         if (checkUserExists) {
+            console.log(checkUserExists);
             throw new AppError('Email address already exists');
         }
 
