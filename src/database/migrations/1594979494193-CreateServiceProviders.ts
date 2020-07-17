@@ -5,7 +5,7 @@ export default class CreateServiceProviders1594979494193
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: 'service_providers',
+                name: 'users',
                 columns: [
                     {
                         name: 'id',

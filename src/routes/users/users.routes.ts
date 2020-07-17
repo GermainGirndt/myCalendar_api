@@ -1,23 +1,23 @@
 import { Router } from 'express';
-import CreateServiceProviderService from '../../services/createServiceProviderService';
+import CreateUserService from '../../services/createUserService';
 import AppError from '../../error/AppError';
 
-const serviceProviderRouter = Router();
+const userRouter = Router();
 
-serviceProviderRouter.get('', (request, response) => {
+userRouter.get('', (request, response) => {
     console.log('Incoming GET Request - Create Service Provider');
     return response.send('Incoming GET Request - List Client');
 });
 
-serviceProviderRouter.post('', async (request, response) => {
+userRouter.post('', async (request, response) => {
     try {
         console.log('Incoming Post Request - Create Service Provider');
         const { forename, surname, password, email } = request.body;
         console.log(forename, surname, password, email);
 
-        const createServiceProviderService = new CreateServiceProviderService();
+        const createUserService = new CreateUserService();
 
-        const serviceProvider = await createServiceProviderService.execute({
+        const serviceProvider = await createUserService.execute({
             forename,
             surname,
             password,
@@ -30,4 +30,4 @@ serviceProviderRouter.post('', async (request, response) => {
     }
 });
 
-export default serviceProviderRouter;
+export default userRouter;

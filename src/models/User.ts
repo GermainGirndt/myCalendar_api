@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 
 @Entity('service_providers')
-class ServiceProvider {
+class User {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
@@ -30,4 +30,4 @@ class ServiceProvider {
     updated_at: Date;
 }
 
-export default ServiceProvider;
+export default User;
