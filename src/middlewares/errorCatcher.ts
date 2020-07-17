@@ -10,7 +10,6 @@ export default function errorCatcher(
     // if error already defined by me,
     // return defined message
     if (err instanceof AppError) {
-        console.log('here---------------------------------------------');
         return response
             .status(err.statusCode)
             .json({ status: 'error', message: err.message });
