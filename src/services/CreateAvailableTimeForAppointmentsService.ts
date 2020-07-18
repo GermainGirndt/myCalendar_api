@@ -29,6 +29,7 @@ class CreateAvailableTimeForAppointmentsService {
             repository: availableTimesForAppointmentsRepository,
             start,
             end,
+            fromUserId,
         });
 
         const availableAppointment = availableTimesForAppointmentsRepository.create(

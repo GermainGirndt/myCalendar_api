@@ -7,16 +7,14 @@ export default function errorCatcher(
     response: Response,
     next: NextFunction,
 ): Response {
-    // if error already defined by me,
-    // return defined message
+    // return defined message if error was already defined by me
     if (err instanceof AppError) {
         return response
             .status(err.statusCode)
             .json({ status: 'error', message: err.message });
     }
 
-    console.log(err);
-    // unexpected error
+    // else return unexpected error
     return response.status(500).json({
         status: 'error',
         message: 'Internal server error',

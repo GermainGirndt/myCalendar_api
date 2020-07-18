@@ -1,20 +1,23 @@
 import AppError from '../error/AppError';
 import { Repository, Between } from 'typeorm';
 import AvailableTimeForAppointments from '../models/AvailableTimeForAppointments';
+import { Request } from '../services/CreateAvailableTimeForAppointmentsService';
 
-interface ValidationRequestDTO {
+interface ValidationRequestDTO extends Request {
     repository: Repository<AvailableTimeForAppointments>;
-    start: Date;
-    end: Date;
 }
 
-export default async function validateIfTimeAvailableInDB({
+export default async function checkIfAppointmentIsAvailableinDB({
     repository,
     start,
     end,
+    fromUserId,
 }: ValidationRequestDTO): Promise<void> {
     const AvailableTimeForAppointmentInTheSameDate = await repository.findOne({
-        where: [{ start: Between(start, end) }, { end: Between(start, end) }],
+        where: [
+            { start: Between(start, end), from_user_id: fromUserId },
+            { end: Between(start, end), from_user_id: fromUserId },
+        ],
     });
 
     console.log('Found:');

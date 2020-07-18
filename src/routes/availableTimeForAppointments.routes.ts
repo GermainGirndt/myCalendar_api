@@ -10,8 +10,6 @@ availableTimeForAppointmentsRouter.post(
         try {
             const { user_id } = request.params;
             const { start, end } = request.body;
-            console.log(user_id);
-            console.log(start, end);
 
             const createAvailableTimeForAppointmentsService = new CreateAvailableTimeForAppointmentsService();
 
@@ -25,7 +23,6 @@ availableTimeForAppointmentsRouter.post(
 
             return response.status(201).json(availableTimeForAppointment);
         } catch (err) {
-            console.log(err);
             return response.status(400).json(err);
         }
     },
