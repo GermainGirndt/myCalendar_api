@@ -1,10 +1,11 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateAvailableTime1595009873642 implements MigrationInterface {
+export class CreateAppointmentsTable1595012376349
+    implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: 'available_time',
+                name: 'appointments',
                 columns: [
                     {
                         name: 'id',
@@ -14,7 +15,12 @@ export class CreateAvailableTime1595009873642 implements MigrationInterface {
                         default: 'uuid_generate_v4()',
                     },
                     {
-                        name: 'from_user_id',
+                        name: 'from_available_time_id',
+                        type: 'uuid',
+                        isNullable: true,
+                    },
+                    {
+                        name: 'for_user_id',
                         type: 'uuid',
                         isNullable: true,
                     },
@@ -44,6 +50,6 @@ export class CreateAvailableTime1595009873642 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('available_time');
+        await queryRunner.dropTable('appointments');
     }
 }
