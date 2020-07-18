@@ -1,13 +1,7 @@
 import { Router } from 'express';
 import CreateUserService from '../../services/createUserService';
-import AppError from '../../error/AppError';
 
 const userRouter = Router();
-
-userRouter.get('', (request, response) => {
-    console.log('Incoming GET Request - Create Service Provider');
-    return response.send('Incoming GET Request - List Client');
-});
 
 userRouter.post('', async (request, response) => {
     try {
