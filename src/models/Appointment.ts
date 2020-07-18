@@ -16,9 +16,15 @@ class Appointment {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
+    @Column()
+    from_available_time_id: string;
+
     @ManyToOne(() => User)
     @JoinColumn({ name: 'from_available_time_id' })
-    fromAvailableTimeID: AvailableTime;
+    AppointmentFromAvailableTime: AvailableTime;
+
+    @Column()
+    AppointmentForUser: string;
 
     @ManyToOne(() => User)
     @JoinColumn({ name: 'for_user_id' })

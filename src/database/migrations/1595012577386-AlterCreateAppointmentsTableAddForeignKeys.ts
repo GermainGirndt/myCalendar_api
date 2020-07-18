@@ -9,7 +9,7 @@ export class AlterCreateAppointmentsTableAddForeignKeys1595012577386
                 name: 'AppointmentFromAvailableTime',
                 columnNames: ['from_available_time_id'],
                 referencedColumnNames: ['id'],
-                referencedTableName: 'available_time',
+                referencedTableName: 'available_times',
                 onDelete: 'SET NULL',
                 onUpdate: 'CASCADE',
             }),

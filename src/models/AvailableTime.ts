@@ -14,9 +14,12 @@ class AvailableTime {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
+    @Column()
+    from_user_id: string;
+
     @ManyToOne(() => User)
     @JoinColumn({ name: 'from_user_id' })
-    from_user_id: User;
+    AvailableTimeFromUser: User;
 
     @Column('timestamp with time zone')
     start: Date;

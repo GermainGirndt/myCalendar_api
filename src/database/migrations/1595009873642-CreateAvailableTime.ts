@@ -4,7 +4,7 @@ export class CreateAvailableTime1595009873642 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: 'available_time',
+                name: 'available_times',
                 columns: [
                     {
                         name: 'id',
