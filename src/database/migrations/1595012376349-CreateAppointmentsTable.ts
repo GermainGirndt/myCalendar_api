@@ -27,12 +27,10 @@ export class CreateAppointmentsTable1595012376349
                     {
                         name: 'start',
                         type: 'timestamp with time zone',
-                        default: 'now()',
                     },
                     {
                         name: 'end',
                         type: 'timestamp with time zone',
-                        default: 'now()',
                     },
                     {
                         name: 'created_at',
