@@ -8,7 +8,7 @@ import {
     JoinColumn,
 } from 'typeorm';
 
-import AvailableTime from './AvailableTime';
+import AvailableTimeForAppointments from './AvailableTimeForAppointments';
 import User from './User';
 
 @Entity('appointments')
@@ -21,7 +21,7 @@ class Appointment {
 
     @ManyToOne(() => User)
     @JoinColumn({ name: 'from_available_time_id' })
-    AppointmentFromAvailableTime: AvailableTime;
+    AppointmentFromAvailableTime: AvailableTimeForAppointments;
 
     @Column()
     AppointmentForUser: string;

@@ -4,7 +4,7 @@ export class AddForeignKeyFieldToAvailableTimeTable1595010747341
     implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createForeignKey(
-            'available_times',
+            'available_time_for_appointments',
             new TableForeignKey({
                 name: 'AvailableTimeFromUser',
                 columnNames: ['from_user_id'],
@@ -18,7 +18,7 @@ export class AddForeignKeyFieldToAvailableTimeTable1595010747341
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.dropForeignKey(
-            'available_times',
+            'available_time_for_appointments',
             'AvailableTimeFromUser',
         );
     }

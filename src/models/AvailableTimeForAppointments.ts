@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import User from '../models/User';
 
-@Entity('available_times')
+@Entity('available_time_for_appointments')
 class AvailableTime {
     @PrimaryGeneratedColumn('uuid')
     id: string;

@@ -4,7 +4,7 @@ export class CreateAvailableTime1595009873642 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: 'available_times',
+                name: 'available_time_for_appointments',
                 columns: [
                     {
                         name: 'id',
@@ -44,6 +44,6 @@ export class CreateAvailableTime1595009873642 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('available_time');
+        await queryRunner.dropTable('available_time_for_appointments');
     }
 }
