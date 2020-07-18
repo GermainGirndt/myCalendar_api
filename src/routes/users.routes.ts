@@ -4,7 +4,6 @@ import CreateUserService from '../services/CreateUserService';
 const userRouter = Router();
 
 userRouter.post('', async (request, response) => {
-    console.log(request);
     try {
         const { forename, surname, password, email } = request.body;
 
@@ -16,6 +15,8 @@ userRouter.post('', async (request, response) => {
             password,
             email,
         });
+
+        delete user.password;
 
         return response.status(201).json(user);
     } catch (err) {

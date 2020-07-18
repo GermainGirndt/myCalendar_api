@@ -20,9 +20,6 @@ export default async function checkIfAppointmentIsAvailableinDB({
         ],
     });
 
-    console.log('Found:');
-    console.log(AvailableTimeForAppointmentInTheSameDate);
-
     if (!!AvailableTimeForAppointmentInTheSameDate) {
         throw new AppError(
             'The selected time interval is already marked as available',
