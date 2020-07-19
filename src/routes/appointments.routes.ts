@@ -1,17 +1,32 @@
-import { Router } from "express";
+import { Router } from 'express';
+import BookAppointmentService from '../services/BookAppointmentService';
+import { parseISO } from 'date-fns';
 
 const appointmentsRouter = Router();
 
-appointmentsRouter.get("", (request, response) => {
-  console.log("Incoming get Request - Create Appointment");
-  // appointments_table: id, appointment_title, appointment_address, appointment_start, appointment_end, appointment_duration, create_time
-  return response.send("Get Appointments");
-});
+appointmentsRouter.post(
+    '/book/:from_available_time_id/',
+    async (request, response) => {
+        console.log('Incoming post Request - Create Appointment');
 
-appointmentsRouter.post("", (request, response) => {
-  console.log("Incoming post Request - Create Appointment");
-  // appointments_table: id, appointment_title, appointment_address, appointment_start, appointment_end, appointment_duration, create_time
-  return response.send("post Appointments");
-});
+        try {
+            const { from_available_time_id } = request.params;
+            const { forUserId, start, end } = request.body;
+
+            const bookAppointmentService = new BookAppointmentService();
+            const appointment = await bookAppointmentService.execute({
+                fromAvailableTimeId: from_available_time_id,
+                forUserId,
+                start: parseISO(start),
+                end: parseISO(end),
+            });
+
+            return response.status(202).json(appointment);
+        } catch (err) {
+            console.log(err);
+            return response.status(400).json({ error: err.message });
+        }
+    },
+);
 
 export default appointmentsRouter;

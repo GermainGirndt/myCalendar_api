@@ -1,7 +1,7 @@
-import { getRepository, Between } from 'typeorm';
+import { getRepository } from 'typeorm';
 import AvailableTimeForAppointments from '../models/AvailableTimeForAppointments';
 import validateRequestDTOCreateAvailableAppointment from '../validators/validateRequestDTOCreateAvailableAppointment';
-import checkIfAppointmentIsAvailableInDB from '../validators/checkIfAppointmentIsAvailableInDB';
+import checkIfTimeCanBeSetAsAvailable from '../validators/checkIfTimeCanBeSetAsAvailable';
 
 export interface Request {
     start: Date;
@@ -25,14 +25,14 @@ class CreateAvailableTimeForAppointmentsService {
             AvailableTimeForAppointments,
         );
 
-        await checkIfAppointmentIsAvailableInDB({
-            repository: availableTimesForAppointmentsRepository,
+        await checkIfTimeCanBeSetAsAvailable({
+            availableTimesForAppointmentsRepository,
             start,
             end,
             fromUserId,
         });
 
-        const availableAppointment = availableTimesForAppointmentsRepository.create(
+        const availableTimeForAppointments = availableTimesForAppointmentsRepository.create(
             {
                 start,
                 end,
@@ -41,10 +41,10 @@ class CreateAvailableTimeForAppointmentsService {
         );
 
         await availableTimesForAppointmentsRepository.save(
-            availableAppointment,
+            availableTimeForAppointments,
         );
 
-        return availableAppointment;
+        return availableTimeForAppointments;
     }
 }
 

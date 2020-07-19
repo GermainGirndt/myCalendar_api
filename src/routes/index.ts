@@ -6,8 +6,8 @@ import availableTimeForAppointments from './availableTimeForAppointments.routes'
 
 const routes = Router();
 
-routes.use('/appointments', appointments);
 routes.use('/users', users);
 routes.use('/available_time', availableTimeForAppointments);
+routes.use('/appointments', appointments);
 
 export default routes;

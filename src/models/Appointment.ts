@@ -24,11 +24,11 @@ class Appointment {
     AppointmentFromAvailableTime: AvailableTimeForAppointments;
 
     @Column()
-    AppointmentForUser: string;
+    for_user_id: string;
 
     @ManyToOne(() => User)
     @JoinColumn({ name: 'for_user_id' })
-    forUserID: User;
+    AppointmentForUser: User;
 
     @Column('timestamp with time zone')
     start: Date;

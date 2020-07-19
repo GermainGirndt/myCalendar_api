@@ -5,7 +5,7 @@ import CreateAvailableTimeForAppointmentsService from '../services/CreateAvailab
 const availableTimeForAppointmentsRouter = Router();
 
 availableTimeForAppointmentsRouter.post(
-    '/user/:user_id',
+    '/create/user/:user_id',
     async (request, response) => {
         try {
             const { user_id } = request.params;
@@ -13,7 +13,7 @@ availableTimeForAppointmentsRouter.post(
 
             const createAvailableTimeForAppointmentsService = new CreateAvailableTimeForAppointmentsService();
 
-            const availableTimeForAppointment = await createAvailableTimeForAppointmentsService.execute(
+            const availableTimeForAppointments = await createAvailableTimeForAppointmentsService.execute(
                 {
                     start: parseISO(start),
                     end: parseISO(end),
@@ -21,9 +21,10 @@ availableTimeForAppointmentsRouter.post(
                 },
             );
 
-            return response.status(201).json(availableTimeForAppointment);
+            return response.status(201).json(availableTimeForAppointments);
         } catch (err) {
-            return response.status(400).json(err);
+            console.log(err);
+            return response.status(400).json({ error: err.message });
         }
     },
 );
