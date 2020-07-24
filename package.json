@@ -1,32 +1,34 @@
 {
-  "name": "api_test",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "dependencies": {
-    "@types/express": "^4.17.7",
-    "@types/node": "^14.0.23",
-    "@types/uuidv4": "^5.0.0",
-    "bcrypt": "^5.0.0",
-    "bcryptjs": "^2.4.3",
-    "date-fns": "^2.15.0",
-    "express": "^4.17.1",
-    "express-async-errors": "^3.1.1",
-    "node": "^14.5.0",
-    "pg": "^8.3.0",
-    "typeorm": "^0.2.25",
-    "uuidv4": "^6.1.1"
-  },
-  "devDependencies": {
-    "@types/bcryptjs": "^2.4.2",
-    "eslint-plugin-prettier": "^3.1.4",
-    "ts-node-dev": "^1.0.0-pre.51",
-    "typescript": "^3.9.6"
-  },
-  "scripts": {
-    "build": "tsc",
-    "dev:server": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/server.ts",
-    "start": "ts-node src/server.ts",
-    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
-  }
+    "name": "api_test",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "dependencies": {
+        "bcrypt": "^5.0.0",
+        "bcryptjs": "^2.4.3",
+        "cors": "^2.8.5",
+        "date-fns": "^2.15.0",
+        "express": "^4.17.1",
+        "express-async-errors": "^3.1.1",
+        "node": "^14.5.0",
+        "pg": "^8.3.0",
+        "typeorm": "^0.2.25",
+        "uuidv4": "^6.1.1"
+    },
+    "devDependencies": {
+        "@types/bcryptjs": "^2.4.2",
+        "@types/cors": "^2.8.6",
+        "@types/express": "^4.17.7",
+        "@types/node": "^14.0.23",
+        "@types/uuidv4": "^5.0.0",
+        "eslint-plugin-prettier": "^3.1.4",
+        "ts-node-dev": "^1.0.0-pre.51",
+        "typescript": "^3.9.6"
+    },
+    "scripts": {
+        "build": "tsc",
+        "dev:server": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/server.ts",
+        "start": "ts-node src/server.ts",
+        "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
+    }
 }
