@@ -1,7 +1,7 @@
-import AppError from '../error/AppError';
+import AppError from '@shared/errors/AppError';
 import { Repository, Between } from 'typeorm';
-import AvailableTimeForAppointments from '../models/AvailableTimeForAppointments';
-import { Request } from '../services/CreateAvailableTimeForAppointmentsService';
+import AvailableTimeForAppointments from '@modules/appointments/infra/typeorm/entities/AvailableTimeForAppointments';
+import { Request } from '@modules/appointments/services/CreateAvailableTimeForAppointmentsService';
 
 interface ValidationRequestDTO extends Request {
     availableTimesForAppointmentsRepository: Repository<

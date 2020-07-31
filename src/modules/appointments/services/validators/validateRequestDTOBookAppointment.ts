@@ -1,7 +1,7 @@
-import AppError from '../error/AppError';
+import AppError from '@shared/errors/AppError';
 import { isValid, isBefore } from 'date-fns';
 import { isUuid } from 'uuidv4';
-import { Request } from '../services/BookAppointmentService';
+import { Request } from '@modules/appointments/services/BookAppointmentService';
 
 export default function validateRequestDTOBookAppointment({
     fromAvailableTimeId,

@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm';
-import Appointment from '../models/Appointment';
-import validateRequestDTOBookAppointment from '../validators/validateRequestDTOBookAppointment';
-import checkIfAppointmentCanBeBooked from '../validators/checkIfAppointmentCanBeBooked';
+import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
+import validateRequestDTOBookAppointment from '@modules/appointments/services/validators/validateRequestDTOBookAppointment';
+import checkIfAppointmentCanBeBooked from '@modules/appointments/services/validators/checkIfAppointmentCanBeBooked';
 
 export interface Request {
     fromAvailableTimeId: string;

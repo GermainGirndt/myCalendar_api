@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { parseISO } from 'date-fns';
-import CreateAvailableTimeForAppointmentsService from '../services/CreateAvailableTimeForAppointmentsService';
+import CreateAvailableTimeForAppointmentsService from '@modules/appointments/services/CreateAvailableTimeForAppointmentsService';
 import { getRepository } from 'typeorm';
-import availableTimeForAppointments from '../models/AvailableTimeForAppointments';
+import availableTimeForAppointments from '@modules/appointments/infra/typeorm/entities/AvailableTimeForAppointments';
 const availableTimeForAppointmentsRouter = Router();
 
 availableTimeForAppointmentsRouter.get(

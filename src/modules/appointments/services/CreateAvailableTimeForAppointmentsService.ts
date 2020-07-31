@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm';
-import AvailableTimeForAppointments from '../models/AvailableTimeForAppointments';
-import validateRequestDTOCreateAvailableAppointment from '../validators/validateRequestDTOCreateAvailableAppointment';
-import checkIfTimeCanBeSetAsAvailable from '../validators/checkIfTimeCanBeSetAsAvailable';
+import AvailableTimeForAppointments from '@modules/appointments/infra/typeorm/entities/AvailableTimeForAppointments';
+import validateRequestDTOCreateAvailableAppointment from '@modules/appointments/services/validators/validateRequestDTOCreateAvailableAppointment';
+import checkIfTimeCanBeSetAsAvailable from '@modules/appointments/services/validators/checkIfTimeCanBeSetAsAvailable';
 
 export interface Request {
     start: Date;

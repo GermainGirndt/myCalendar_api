@@ -1,11 +1,11 @@
 // for typeorm
 import 'reflect-metadata';
 // import postgrees connection
-import './database';
+import '@shared/infra/typeorm';
 
 import express from 'express';
-import errorCatcher from './middlewares/errorCatcher';
-import routes from './routes';
+import errorCatcher from '@shared/middlewares/errorCatcher';
+import routes from '@shared/infra/http/routes';
 
 import cors from 'cors';
 

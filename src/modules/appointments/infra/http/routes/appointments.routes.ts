@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import BookAppointmentService from '../services/BookAppointmentService';
+import BookAppointmentService from '@modules/appointments/services/BookAppointmentService';
 import { parseISO } from 'date-fns';
 
 const appointmentsRouter = Router();

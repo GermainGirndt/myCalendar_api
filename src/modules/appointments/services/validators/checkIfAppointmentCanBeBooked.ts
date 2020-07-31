@@ -1,4 +1,4 @@
-import AppError from '../error/AppError';
+import AppError from '@shared/errors/AppError';
 import {
     getRepository,
     Repository,
@@ -6,9 +6,9 @@ import {
     MoreThanOrEqual,
     LessThanOrEqual,
 } from 'typeorm';
-import Appointment from '../models/Appointment';
-import AvailableTimeForAppointments from '../models/AvailableTimeForAppointments';
-import { Request } from '../services/BookAppointmentService';
+import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
+import AvailableTimeForAppointments from '@modules/appointments/infra/typeorm/entities/AvailableTimeForAppointments';
+import { Request } from '@modules/appointments/services/BookAppointmentService';
 
 interface ValidationRequestDTO extends Request {
     appointmentsRepository: Repository<Appointment>;
