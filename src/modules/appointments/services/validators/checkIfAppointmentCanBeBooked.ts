@@ -1,17 +1,11 @@
 import AppError from '@shared/errors/AppError';
-import {
-    getRepository,
-    Repository,
-    Between,
-    MoreThanOrEqual,
-    LessThanOrEqual,
-} from 'typeorm';
-import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
+import { getRepository, MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
+import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 import AvailableTimeForAppointments from '@modules/appointments/infra/typeorm/entities/AvailableTimeForAppointments';
-import { Request } from '@modules/appointments/services/BookAppointmentService';
+import IBookAppointmentDTO from '@modules/appointments/dtos/IBookAppointmentDTO';
 
-interface ValidationRequestDTO extends Request {
-    appointmentsRepository: Repository<Appointment>;
+interface ValidationRequestDTO extends IBookAppointmentDTO {
+    appointmentsRepository: IAppointmentsRepository;
 }
 
 export default async function checkIfAppointmentCanBeBooked({
@@ -26,7 +20,6 @@ export default async function checkIfAppointmentCanBeBooked({
     const availableTimeForAppointmentsRepository = getRepository(
         AvailableTimeForAppointments,
     );
-    console.log(fromAvailableTimeId);
 
     const availableTimeForAppointment = await availableTimeForAppointmentsRepository.findOne(
         {
@@ -38,10 +31,6 @@ export default async function checkIfAppointmentCanBeBooked({
         },
     );
 
-    console.log(availableTimeForAppointment);
-    console.log(start);
-    console.log(end);
-
     if (!availableTimeForAppointment) {
         throw new AppError(
             'The selected time interval for booking is not set as available',
@@ -50,18 +39,11 @@ export default async function checkIfAppointmentCanBeBooked({
 
     // check if there isn't an appointment booked in the same date within the available time;
 
-    const bookedAppointmentInTheSameDateForTheSameAvailableTime = await appointmentsRepository.findOne(
+    const bookedAppointmentInTheSameDateForTheSameAvailableTime = await appointmentsRepository.findAppointmentBetweenDatesForAvailableTime(
         {
-            where: [
-                {
-                    start: Between(start, end),
-                    from_available_time_id: availableTimeForAppointment.id,
-                },
-                {
-                    end: Between(start, end),
-                    from_available_time_id: availableTimeForAppointment.id,
-                },
-            ],
+            start,
+            end,
+            availableTimeForAppointmentId: availableTimeForAppointment.id,
         },
     );
 
@@ -73,19 +55,8 @@ export default async function checkIfAppointmentCanBeBooked({
 
     // check if the booking user has no booked/free appointment in this time;
 
-    const customersAppointmentBookedForTheSameDateForThe = await appointmentsRepository.findOne(
-        {
-            where: [
-                {
-                    start: Between(start, end),
-                    for_user_id: forUserId,
-                },
-                {
-                    end: Between(start, end),
-                    for_user_id: forUserId,
-                },
-            ],
-        },
+    const customersAppointmentBookedForTheSameDateForThe = await appointmentsRepository.findAppointmentBetweenDatesForUser(
+        { forUserId, start, end },
     );
 
     if (!!customersAppointmentBookedForTheSameDateForThe) {

@@ -1,13 +1,13 @@
 import AppError from '@shared/errors/AppError';
 import { isValid, isBefore } from 'date-fns';
 import { isUuid } from 'uuidv4';
-import { Request } from '@modules/appointments/services/CreateAvailableTimeForAppointmentsService';
+import ICreateAvailableTimeForAppointmentsDTO from '@modules/appointments/dtos/ICreateAvailableTimeForAppointmentsDTO';
 
 export default function validateRequestDTOCreateAvailableTime({
     start,
     end,
     fromUserId,
-}: Request): void {
+}: ICreateAvailableTimeForAppointmentsDTO): void {
     if (!isValid(start) || !start) {
         throw new AppError('Please insert a valid appointment start date');
     } else if (!isValid(end) || !end) {

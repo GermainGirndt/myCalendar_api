@@ -1,12 +1,9 @@
 import AppError from '@shared/errors/AppError';
-import { Repository, Between } from 'typeorm';
-import AvailableTimeForAppointments from '@modules/appointments/infra/typeorm/entities/AvailableTimeForAppointments';
-import { Request } from '@modules/appointments/services/CreateAvailableTimeForAppointmentsService';
+import IAvailableTimeForAppointmentsRepository from '@modules/appointments/repositories/IAvailableTimeForAppointmentsRepository';
+import ICreateAvailableTimeForAppointmentsDTO from '@modules/appointments/dtos/ICreateAvailableTimeForAppointmentsDTO';
 
-interface ValidationRequestDTO extends Request {
-    availableTimesForAppointmentsRepository: Repository<
-        AvailableTimeForAppointments
-    >;
+interface ValidationRequestDTO extends ICreateAvailableTimeForAppointmentsDTO {
+    availableTimesForAppointmentsRepository: IAvailableTimeForAppointmentsRepository;
 }
 
 export default async function checkIfAppointmentCanBeAvailableinDB({
@@ -15,13 +12,8 @@ export default async function checkIfAppointmentCanBeAvailableinDB({
     end,
     fromUserId,
 }: ValidationRequestDTO): Promise<void> {
-    const availableTimeForAppointmentInTheSameDate = await availableTimesForAppointmentsRepository.findOne(
-        {
-            where: [
-                { start: Between(start, end), from_user_id: fromUserId },
-                { end: Between(start, end), from_user_id: fromUserId },
-            ],
-        },
+    const availableTimeForAppointmentInTheSameDate = await availableTimesForAppointmentsRepository.findAvailableTimeFromUserBetweenDates(
+        { start, end, fromUserId },
     );
 
     if (!!availableTimeForAppointmentInTheSameDate) {

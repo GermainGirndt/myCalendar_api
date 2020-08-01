@@ -1,47 +1,46 @@
-import { getRepository } from 'typeorm';
 import AvailableTimeForAppointments from '@modules/appointments/infra/typeorm/entities/AvailableTimeForAppointments';
 import validateRequestDTOCreateAvailableAppointment from '@modules/appointments/services/validators/validateRequestDTOCreateAvailableAppointment';
 import checkIfTimeCanBeSetAsAvailable from '@modules/appointments/services/validators/checkIfTimeCanBeSetAsAvailable';
+import { injectable, inject } from 'tsyringe';
+import IAvailableTimeForAppointmentsRepository from '@modules/appointments/repositories/IAvailableTimeForAppointmentsRepository';
+import ICreateAvailableTimeForAppointmentsDTO from '@modules/appointments/dtos/ICreateAvailableTimeForAppointmentsDTO';
 
-export interface Request {
-    start: Date;
-    end: Date;
-    fromUserId: string;
-}
-
+@injectable()
 class CreateAvailableTimeForAppointmentsService {
+    constructor(
+        @inject('AvailableTimeForAppointmentsRepository')
+        private availableTimeForAppointmentsRepository: IAvailableTimeForAppointmentsRepository,
+    ) {
+        this.availableTimeForAppointmentsRepository = availableTimeForAppointmentsRepository;
+    }
+
     public async execute({
         start,
         end,
         fromUserId,
-    }: Request): Promise<AvailableTimeForAppointments> {
+    }: ICreateAvailableTimeForAppointmentsDTO): Promise<
+        AvailableTimeForAppointments
+    > {
         validateRequestDTOCreateAvailableAppointment({
             start,
             end,
             fromUserId,
         });
 
-        const availableTimesForAppointmentsRepository = getRepository(
-            AvailableTimeForAppointments,
-        );
-
         await checkIfTimeCanBeSetAsAvailable({
-            availableTimesForAppointmentsRepository,
+            availableTimesForAppointmentsRepository: this
+                .availableTimeForAppointmentsRepository,
             start,
             end,
             fromUserId,
         });
 
-        const availableTimeForAppointments = availableTimesForAppointmentsRepository.create(
+        const availableTimeForAppointments = this.availableTimeForAppointmentsRepository.create(
             {
                 start,
                 end,
-                from_user_id: fromUserId,
+                fromUserId,
             },
-        );
-
-        await availableTimesForAppointmentsRepository.save(
-            availableTimeForAppointments,
         );
 
         return availableTimeForAppointments;

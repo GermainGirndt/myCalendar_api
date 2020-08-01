@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import BookAppointmentService from '@modules/appointments/services/BookAppointmentService';
 import { parseISO } from 'date-fns';
+import { container } from 'tsyringe';
 
 const appointmentsRouter = Router();
 
@@ -13,7 +14,9 @@ appointmentsRouter.post(
             const { from_available_time_id } = request.params;
             const { forUserId, start, end } = request.body;
 
-            const bookAppointmentService = new BookAppointmentService();
+            const bookAppointmentService = container.resolve(
+                BookAppointmentService,
+            );
             const appointment = await bookAppointmentService.execute({
                 fromAvailableTimeId: from_available_time_id,
                 forUserId,

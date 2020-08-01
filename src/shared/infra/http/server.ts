@@ -1,6 +1,7 @@
 // for typeorm
 import 'reflect-metadata';
 // import postgrees connection
+import '@shared/container';
 import '@shared/infra/typeorm';
 
 import express from 'express';

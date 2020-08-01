@@ -1,22 +1,27 @@
-import { getRepository } from 'typeorm';
+import { injectable, inject } from 'tsyringe';
+
 import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
 import validateRequestDTOBookAppointment from '@modules/appointments/services/validators/validateRequestDTOBookAppointment';
 import checkIfAppointmentCanBeBooked from '@modules/appointments/services/validators/checkIfAppointmentCanBeBooked';
 
-export interface Request {
-    fromAvailableTimeId: string;
-    forUserId: string;
-    start: Date;
-    end: Date;
-}
+import IBookAppointmentDTO from '@modules/appointments/dtos/IBookAppointmentDTO';
+import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 
+@injectable()
 class BookAppointmentService {
+    constructor(
+        @inject('AppointmentsRepository')
+        private appointmentsRepository: IAppointmentsRepository,
+    ) {
+        this.appointmentsRepository = appointmentsRepository;
+    }
+
     public async execute({
         fromAvailableTimeId,
         forUserId,
         start,
         end,
-    }: Request): Promise<Appointment> {
+    }: IBookAppointmentDTO): Promise<Appointment> {
         validateRequestDTOBookAppointment({
             fromAvailableTimeId,
             forUserId,
@@ -24,26 +29,22 @@ class BookAppointmentService {
             end,
         });
 
-        const appointmentsRepository = getRepository(Appointment);
-
         await checkIfAppointmentCanBeBooked({
-            appointmentsRepository,
+            appointmentsRepository: this.appointmentsRepository,
             forUserId,
             fromAvailableTimeId,
             start,
             end,
         });
 
-        const availableAppointment = appointmentsRepository.create({
-            from_available_time_id: fromAvailableTimeId,
-            for_user_id: forUserId,
+        const newAppointment = this.appointmentsRepository.create({
+            fromAvailableTimeId,
+            forUserId,
             start,
             end,
         });
 
-        await appointmentsRepository.save(availableAppointment);
-
-        return availableAppointment;
+        return newAppointment;
     }
 }
 

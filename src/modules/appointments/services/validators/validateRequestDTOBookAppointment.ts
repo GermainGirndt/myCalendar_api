@@ -1,14 +1,14 @@
 import AppError from '@shared/errors/AppError';
 import { isValid, isBefore } from 'date-fns';
 import { isUuid } from 'uuidv4';
-import { Request } from '@modules/appointments/services/BookAppointmentService';
+import IBookAppointmentDTO from '@modules/appointments/dtos/IBookAppointmentDTO';
 
 export default function validateRequestDTOBookAppointment({
     fromAvailableTimeId,
     forUserId,
     start,
     end,
-}: Request): void {
+}: IBookAppointmentDTO): void {
     if (!isValid(start) || !start) {
         throw new AppError('Please insert a valid appointment start date');
     } else if (!isValid(end) || !end) {
