@@ -37,6 +37,16 @@ export default class AvailableTimeForAppointmentsRepository
         return appointment;
     }
 
+    public async findAll(
+        userId: string,
+    ): Promise<AvailableTimeForAppointments[] | undefined> {
+        const availableTimes = await this.ormRepository.find({
+            where: { from_user_id: userId },
+        });
+
+        return availableTimes;
+    }
+
     public async findAvailableTimeFromUserBetweenDates({
         fromUserId,
         start,
