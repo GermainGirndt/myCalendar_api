@@ -1,29 +1,11 @@
 import { Router } from 'express';
-import CreateUserService from '@modules/users/services/CreateUserService';
-import { container } from 'tsyringe';
+
+import UsersController from '@modules/users/infra/http/controllers/UsersController';
 
 const userRouter = Router();
 
-userRouter.post('', async (request, response) => {
-    try {
-        const { forename, surname, password, email } = request.body;
+const usersController = new UsersController();
 
-        const createUserService = container.resolve(CreateUserService);
-
-        const user = await createUserService.execute({
-            forename,
-            surname,
-            password,
-            email,
-        });
-
-        delete user.password;
-
-        return response.status(201).json(user);
-    } catch (err) {
-        console.log(err);
-        return response.status(400).json({ error: err.message });
-    }
-});
+userRouter.post('', usersController.create);
 
 export default userRouter;
