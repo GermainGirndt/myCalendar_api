@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import AppointmentsController from '@modules/appointments/infra/http/controllers/AppointmentsController';
 
 const appointmentsRouter = Router();

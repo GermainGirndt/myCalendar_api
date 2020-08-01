@@ -1,12 +1,13 @@
 import { injectable, inject } from 'tsyringe';
 
-import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
-import validateRequestDTOBookAppointment from '@modules/appointments/services/validators/validateRequestDTOBookAppointment';
-import checkIfAppointmentCanBeBooked from '@modules/appointments/services/validators/checkIfAppointmentCanBeBooked';
-
 import IBookAppointmentDTO from '@modules/appointments/dtos/IBookAppointmentDTO';
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 import IAvailableTimeForAppointmentsRepository from '../repositories/IAvailableTimeForAppointmentsRepository';
+
+import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
+
+import checkIfAppointmentCanBeBooked from '@modules/appointments/services/validators/checkIfAppointmentCanBeBooked';
+import validateRequestDTOBookAppointment from '@modules/appointments/services/validators/validateRequestDTOBookAppointment';
 
 @injectable()
 class BookAppointmentService {

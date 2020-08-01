@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import AvailableTimeForAppointmentsController from '@modules/appointments/infra/http/controllers/AvailableTimeForAppointmentsController';
 
 const availableTimeForAppointmentsController = new AvailableTimeForAppointmentsController();

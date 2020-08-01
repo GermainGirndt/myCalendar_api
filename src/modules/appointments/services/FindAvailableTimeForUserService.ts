@@ -1,7 +1,9 @@
 import { injectable, inject } from 'tsyringe';
+
 import IAvailableTimeForAppointmentsRepository from '@modules/appointments/repositories/IAvailableTimeForAppointmentsRepository';
-import AvailableTimeForAppointments from '@modules/appointments/infra/typeorm/entities/AvailableTimeForAppointments';
 import IFindAllAvailableTimeForUserDTO from '@modules/appointments/dtos/IFindAllAvailableTimeForUserDTO';
+
+import AvailableTimeForAppointments from '@modules/appointments/infra/typeorm/entities/AvailableTimeForAppointments';
 
 @injectable()
 export default class FindAvailableTimeForUserService {

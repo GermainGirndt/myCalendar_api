@@ -1,9 +1,12 @@
-import AvailableTimeForAppointments from '@modules/appointments/infra/typeorm/entities/AvailableTimeForAppointments';
-import validateRequestDTOCreateAvailableAppointment from '@modules/appointments/services/validators/validateRequestDTOCreateAvailableAppointment';
-import checkIfTimeCanBeSetAsAvailable from '@modules/appointments/services/validators/checkIfTimeCanBeSetAsAvailable';
 import { injectable, inject } from 'tsyringe';
+
 import IAvailableTimeForAppointmentsRepository from '@modules/appointments/repositories/IAvailableTimeForAppointmentsRepository';
 import ICreateAvailableTimeForAppointmentsDTO from '@modules/appointments/dtos/ICreateAvailableTimeForAppointmentsDTO';
+
+import AvailableTimeForAppointments from '@modules/appointments/infra/typeorm/entities/AvailableTimeForAppointments';
+
+import checkIfTimeCanBeSetAsAvailable from '@modules/appointments/services/validators/checkIfTimeCanBeSetAsAvailable';
+import validateRequestDTOCreateAvailableAppointment from '@modules/appointments/services/validators/validateRequestDTOCreateAvailableAppointment';
 
 @injectable()
 class CreateAvailableTimeForAppointmentsService {
