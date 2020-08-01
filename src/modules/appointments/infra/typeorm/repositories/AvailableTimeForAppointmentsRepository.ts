@@ -6,6 +6,7 @@ import { getRepository, Repository, Between } from 'typeorm';
 import IAvailableTimeForAppointmentsRepository from '@modules/appointments/repositories/IAvailableTimeForAppointmentsRepository';
 import AvailableTimeForAppointments from '@modules/appointments/infra/typeorm/entities/AvailableTimeForAppointments';
 import ICreateAvailableTimeForAppointmentsDTO from '@modules/appointments/dtos/ICreateAvailableTimeForAppointmentsDTO';
+import IFindAllAvailableTimeForUserDTO from '@modules/appointments/dtos/IFindAllAvailableTimeForUserDTO';
 
 const availableTimesForAppointmentsRepository = getRepository(
     AvailableTimeForAppointments,
@@ -37,9 +38,11 @@ export default class AvailableTimeForAppointmentsRepository
         return appointment;
     }
 
-    public async findAll(
-        userId: string,
-    ): Promise<AvailableTimeForAppointments[] | undefined> {
+    public async findAll({
+        userId,
+    }: IFindAllAvailableTimeForUserDTO): Promise<
+        AvailableTimeForAppointments[] | undefined
+    > {
         const availableTimes = await this.ormRepository.find({
             where: { from_user_id: userId },
         });

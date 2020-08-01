@@ -1,6 +1,7 @@
-import AppError from '@shared/errors/AppError';
 import IAvailableTimeForAppointmentsRepository from '@modules/appointments/repositories/IAvailableTimeForAppointmentsRepository';
 import ICreateAvailableTimeForAppointmentsDTO from '@modules/appointments/dtos/ICreateAvailableTimeForAppointmentsDTO';
+
+import AppError from '@shared/errors/AppError';
 
 interface ValidationRequestDTO extends ICreateAvailableTimeForAppointmentsDTO {
     availableTimesForAppointmentsRepository: IAvailableTimeForAppointmentsRepository;

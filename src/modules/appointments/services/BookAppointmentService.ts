@@ -6,14 +6,19 @@ import checkIfAppointmentCanBeBooked from '@modules/appointments/services/valida
 
 import IBookAppointmentDTO from '@modules/appointments/dtos/IBookAppointmentDTO';
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
+import IAvailableTimeForAppointmentsRepository from '../repositories/IAvailableTimeForAppointmentsRepository';
 
 @injectable()
 class BookAppointmentService {
     constructor(
         @inject('AppointmentsRepository')
         private appointmentsRepository: IAppointmentsRepository,
+
+        @inject('AppointmentsRepository')
+        private availableTimeForAppointmentsRepository: IAvailableTimeForAppointmentsRepository,
     ) {
         this.appointmentsRepository = appointmentsRepository;
+        this.availableTimeForAppointmentsRepository = availableTimeForAppointmentsRepository;
     }
 
     public async execute({
@@ -30,6 +35,8 @@ class BookAppointmentService {
         });
 
         await checkIfAppointmentCanBeBooked({
+            availableTimeForAppointmentsRepository: this
+                .availableTimeForAppointmentsRepository,
             appointmentsRepository: this.appointmentsRepository,
             forUserId,
             fromAvailableTimeId,

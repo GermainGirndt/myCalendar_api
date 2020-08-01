@@ -37,7 +37,7 @@ export default class AppointmentsRepository implements IAppointmentsRepository {
     }: IFindAppointmentBetweenDatesForAvailableTimeDTO): Promise<
         Appointment | undefined
     > {
-        const bookedAppointmentInTheSameDateForTheSameAvailableTime = await this.ormRepository.findOne(
+        const bookedAppointmentsInAvailableTime = await this.ormRepository.findOne(
             {
                 where: [
                     {
@@ -52,7 +52,7 @@ export default class AppointmentsRepository implements IAppointmentsRepository {
             },
         );
 
-        return bookedAppointmentInTheSameDateForTheSameAvailableTime;
+        return bookedAppointmentsInAvailableTime;
     }
 
     public async findAppointmentBetweenDatesForUser({
@@ -62,7 +62,7 @@ export default class AppointmentsRepository implements IAppointmentsRepository {
     }: IFindAppointmentBetweenDatesForUserDTO): Promise<
         Appointment | undefined
     > {
-        const bookedAppointmentInTheSameDateForTheSameAvailableTime = await this.ormRepository.findOne(
+        const bookedAppointmentsBetweenDates = await this.ormRepository.findOne(
             {
                 where: [
                     {
@@ -77,6 +77,6 @@ export default class AppointmentsRepository implements IAppointmentsRepository {
             },
         );
 
-        return bookedAppointmentInTheSameDateForTheSameAvailableTime;
+        return bookedAppointmentsBetweenDates;
     }
 }

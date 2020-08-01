@@ -1,34 +1,27 @@
-import AppError from '@shared/errors/AppError';
-import { getRepository, MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
-import AvailableTimeForAppointments from '@modules/appointments/infra/typeorm/entities/AvailableTimeForAppointments';
+import IAvailableTimeForAppointmentsRepository from '@modules/appointments/repositories/IAvailableTimeForAppointmentsRepository';
+
 import IBookAppointmentDTO from '@modules/appointments/dtos/IBookAppointmentDTO';
+
+import AppError from '@shared/errors/AppError';
 
 interface ValidationRequestDTO extends IBookAppointmentDTO {
     appointmentsRepository: IAppointmentsRepository;
+    availableTimeForAppointmentsRepository: IAvailableTimeForAppointmentsRepository;
 }
 
 export default async function checkIfAppointmentCanBeBooked({
     appointmentsRepository,
+    availableTimeForAppointmentsRepository,
     start,
     end,
     forUserId,
     fromAvailableTimeId,
 }: ValidationRequestDTO): Promise<void> {
-    // check if the choosen date is set as available;
+    // check if the choosen date is in the period of time set as available by the service provider;
 
-    const availableTimeForAppointmentsRepository = getRepository(
-        AvailableTimeForAppointments,
-    );
-
-    const availableTimeForAppointment = await availableTimeForAppointmentsRepository.findOne(
-        {
-            where: [
-                { id: fromAvailableTimeId },
-                { start: LessThanOrEqual(start) },
-                { end: MoreThanOrEqual(end) },
-            ],
-        },
+    const availableTimeForAppointment = await availableTimeForAppointmentsRepository.findAvailableTimeFromUserBetweenDates(
+        { fromUserId: fromAvailableTimeId, start, end },
     );
 
     if (!availableTimeForAppointment) {

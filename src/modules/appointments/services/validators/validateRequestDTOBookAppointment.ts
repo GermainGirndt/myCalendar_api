@@ -1,7 +1,9 @@
-import AppError from '@shared/errors/AppError';
+import IBookAppointmentDTO from '@modules/appointments/dtos/IBookAppointmentDTO';
+
 import { isValid, isBefore } from 'date-fns';
 import { isUuid } from 'uuidv4';
-import IBookAppointmentDTO from '@modules/appointments/dtos/IBookAppointmentDTO';
+
+import AppError from '@shared/errors/AppError';
 
 export default function validateRequestDTOBookAppointment({
     fromAvailableTimeId,

@@ -1,7 +1,9 @@
-import AppError from '@shared/errors/AppError';
+import ICreateAvailableTimeForAppointmentsDTO from '@modules/appointments/dtos/ICreateAvailableTimeForAppointmentsDTO';
+
 import { isValid, isBefore } from 'date-fns';
 import { isUuid } from 'uuidv4';
-import ICreateAvailableTimeForAppointmentsDTO from '@modules/appointments/dtos/ICreateAvailableTimeForAppointmentsDTO';
+
+import AppError from '@shared/errors/AppError';
 
 export default function validateRequestDTOCreateAvailableTime({
     start,
