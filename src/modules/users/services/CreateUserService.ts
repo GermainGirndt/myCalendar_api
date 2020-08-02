@@ -22,16 +22,16 @@ class CreateUserService {
         this.hashProvider = hashProvider;
     }
     public async execute({
-        surname,
         forename,
+        surname,
         password,
         email,
     }: ICreateUserDTO): Promise<User> {
-        checkIfUserExists({ usersRepository: this.usersRepository, email });
+        //checkIfUserExists({ usersRepository: this.usersRepository, email });
 
         const hashedPassword = await this.hashProvider.generateHash(password);
 
-        const user = this.usersRepository.create({
+        const user = await this.usersRepository.create({
             surname,
             forename,
             password: hashedPassword,

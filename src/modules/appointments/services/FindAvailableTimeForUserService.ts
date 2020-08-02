@@ -1,7 +1,7 @@
 import { injectable, inject } from 'tsyringe';
 
 import IAvailableTimeForAppointmentsRepository from '@modules/appointments/repositories/IAvailableTimeForAppointmentsRepository';
-import IFindAllAvailableTimeForUserDTO from '@modules/appointments/dtos/IFindAllAvailableTimeForUserDTO';
+import IFindAllAvailableTimeFromUserIdDTO from '@modules/appointments/dtos/IFindAllAvailableTimeFromUserIdDTO';
 
 import AvailableTimeForAppointments from '@modules/appointments/infra/typeorm/entities/AvailableTimeForAppointments';
 
@@ -16,10 +16,10 @@ export default class FindAvailableTimeForUserService {
 
     public async execute({
         userId,
-    }: IFindAllAvailableTimeForUserDTO): Promise<
+    }: IFindAllAvailableTimeFromUserIdDTO): Promise<
         AvailableTimeForAppointments[] | undefined
     > {
-        const availableTimeForUser = this.availableTimeForAppointmentsRepository.findAll(
+        const availableTimeForUser = this.availableTimeForAppointmentsRepository.findAllFromUserId(
             { userId },
         );
 
