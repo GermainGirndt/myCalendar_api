@@ -20,8 +20,16 @@ export default async function checkIfAppointmentCanBeBooked({
 }: ValidationRequestDTO): Promise<void> {
     // check if the choosen date is in the period of time set as available by the service provider;
 
+    const availableTime = await availableTimeForAppointmentsRepository.findById(
+        { availableTimeId: fromAvailableTimeId },
+    );
+
+    if (!availableTime) {
+        throw new AppError('Could not find the selected available time id');
+    }
+
     const availableTimeForAppointment = await availableTimeForAppointmentsRepository.findAvailableTimeFromUserBetweenDates(
-        { fromUserId: fromAvailableTimeId, start, end },
+        { fromUserId: availableTime.from_user_id, start, end },
     );
 
     if (!availableTimeForAppointment) {
@@ -29,7 +37,6 @@ export default async function checkIfAppointmentCanBeBooked({
             'The selected time interval for booking is not set as available',
         );
     }
-
     // check if there isn't an appointment booked in the same date within the available time;
 
     const bookedAppointmentInTheSameDateForTheSameAvailableTime = await appointmentsRepository.findAppointmentBetweenDatesForAvailableTime(

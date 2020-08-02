@@ -5,17 +5,13 @@ import ICreateAvailableTimeForAppointmentsDTO from '@modules/appointments/dtos/I
 import IFindAllAvailableTimeFromUserIdDTO from '@modules/appointments/dtos/IFindAllAvailableTimeFromUserIdDTO';
 import IFindAvailableTimeByIdDTO from '@modules/appointments/dtos/IFindAvailableTimeByIdDTO';
 
-import { getRepository, Repository, Between } from 'typeorm';
-
 import AvailableTimeForAppointments from '@modules/appointments/infra/typeorm/entities/AvailableTimeForAppointments';
 
-export default class AvailableTimeForAppointmentsRepository
-    implements IAvailableTimeForAppointmentsRepository {
-    private ormRepository: Repository<AvailableTimeForAppointments>;
+import { uuid } from 'uuidv4';
 
-    constructor() {
-        this.ormRepository = getRepository(AvailableTimeForAppointments);
-    }
+export default class FakeAvailableTimeForAppointmentsRepository
+    implements IAvailableTimeForAppointmentsRepository {
+    private fakeAvailableTimeRepository: AvailableTimeForAppointments[] = [];
 
     public async create({
         start,
@@ -24,15 +20,13 @@ export default class AvailableTimeForAppointmentsRepository
     }: ICreateAvailableTimeForAppointmentsDTO): Promise<
         AvailableTimeForAppointments
     > {
-        const appointment = this.ormRepository.create({
-            start,
-            end,
-            from_user_id: fromUserId,
-        });
+        const availableTime = new AvailableTimeForAppointments();
 
-        await this.ormRepository.save(appointment);
+        Object.assign(availableTime, { id: uuid(), start, end, fromUserId });
 
-        return appointment;
+        this.fakeAvailableTimeRepository.push(availableTime);
+
+        return availableTime;
     }
 
     public async findAllFromUserId({
@@ -40,11 +34,11 @@ export default class AvailableTimeForAppointmentsRepository
     }: IFindAllAvailableTimeFromUserIdDTO): Promise<
         AvailableTimeForAppointments[] | undefined
     > {
-        const availableTimes = await this.ormRepository.find({
-            where: { from_user_id: userId },
-        });
+        const availableTimeForUser = this.fakeAvailableTimeRepository.filter(
+            availableTime => availableTime.from_user_id === userId,
+        );
 
-        return availableTimes;
+        return availableTimeForUser;
     }
 
     public async findById({
@@ -52,9 +46,9 @@ export default class AvailableTimeForAppointmentsRepository
     }: IFindAvailableTimeByIdDTO): Promise<
         AvailableTimeForAppointments | undefined
     > {
-        const availableTimes = await this.ormRepository.findOne({
-            where: { id: availableTimeId },
-        });
+        const availableTimes = await this.fakeAvailableTimeRepository.find(
+            availableTime => availableTime.id === availableTimeId,
+        );
 
         return availableTimes;
     }
@@ -66,13 +60,17 @@ export default class AvailableTimeForAppointmentsRepository
     }: IFindAvailableTimeFromUserBetweenDatesDTO): Promise<
         AvailableTimeForAppointments | undefined
     > {
-        const availableTimesInTheSameDate = await this.ormRepository.findOne({
-            where: [
-                { from_user_id: fromUserId },
-                { start: Between(start, end) },
-                { end: Between(start, end) },
-            ],
-        });
+        const availableTimesInTheSameDate = await this.fakeAvailableTimeRepository.find(
+            availableTime => {
+                const matchUserId = availableTime.from_user_id === fromUserId;
+                const matchStart =
+                    availableTime.start >= start && availableTime.start <= end;
+                const matchEnd =
+                    availableTime.end >= start && availableTime.end <= end;
+
+                return matchUserId && matchStart && matchEnd;
+            },
+        );
 
         return availableTimesInTheSameDate;
     }

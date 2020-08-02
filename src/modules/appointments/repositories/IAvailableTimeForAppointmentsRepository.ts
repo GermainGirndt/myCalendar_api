@@ -1,17 +1,25 @@
-import AvailableTimeForAppointments from '@modules/appointments/infra/typeorm/entities/AvailableTimeForAppointments';
 import ICreateAvailableTimeForAppointmentsDTO from '@modules/appointments/dtos/ICreateAvailableTimeForAppointmentsDTO';
 import IFindAvailableTimeFromUserBetweenDatesDTO from '@modules/appointments/dtos/IFindAvailableTimeFromUserBetweenDatesDTO';
-import IFindAllAvailableTimeForUserDTO from '@modules/appointments/dtos/IFindAllAvailableTimeForUserDTO';
+import IFindAllAvailableTimeFromUserIdDTO from '@modules/appointments/dtos/IFindAllAvailableTimeFromUserIdDTO';
+import IFindAvailableTimeByIdDTO from '@modules/appointments/dtos/IFindAvailableTimeByIdDTO';
+
+import AvailableTimeForAppointments from '@modules/appointments/infra/typeorm/entities/AvailableTimeForAppointments';
 
 export default interface IAvailableTimeForAppointmentsRepository {
     create(
         data: ICreateAvailableTimeForAppointmentsDTO,
     ): Promise<AvailableTimeForAppointments>;
 
-    findAll({
+    findAllFromUserId({
         userId,
-    }: IFindAllAvailableTimeForUserDTO): Promise<
+    }: IFindAllAvailableTimeFromUserIdDTO): Promise<
         AvailableTimeForAppointments[] | undefined
+    >;
+
+    findById({
+        availableTimeId,
+    }: IFindAvailableTimeByIdDTO): Promise<
+        AvailableTimeForAppointments | undefined
     >;
 
     findAvailableTimeFromUserBetweenDates(
