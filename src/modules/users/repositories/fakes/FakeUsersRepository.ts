@@ -5,6 +5,8 @@ import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
 
 import User from '@modules/users/infra/typeorm/entities/User';
 
+import { uuid } from 'uuidv4';
+
 export default class UserRepository implements IUsersRepository {
     private fakeUserRepository: User[] = [];
 
@@ -16,7 +18,7 @@ export default class UserRepository implements IUsersRepository {
     }: ICreateUserDTO): Promise<User> {
         const user = new User();
 
-        Object.assign(user, { forename, surname, email, password });
+        Object.assign(user, { id: uuid(), forename, surname, email, password });
 
         this.fakeUserRepository.push(user);
 
