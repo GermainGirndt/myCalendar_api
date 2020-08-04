@@ -22,7 +22,12 @@ export default class FakeAvailableTimeForAppointmentsRepository
     > {
         const availableTime = new AvailableTimeForAppointments();
 
-        Object.assign(availableTime, { id: uuid(), start, end, fromUserId });
+        Object.assign(availableTime, {
+            id: uuid(),
+            start,
+            end,
+            from_user_id: fromUserId,
+        });
 
         this.fakeAvailableTimeRepository.push(availableTime);
 
@@ -64,13 +69,15 @@ export default class FakeAvailableTimeForAppointmentsRepository
             availableTime => {
                 const matchUserId = availableTime.from_user_id === fromUserId;
                 const matchStart =
-                    availableTime.start >= start && availableTime.start <= end;
+                    availableTime.start <= start && availableTime.end >= start;
                 const matchEnd =
-                    availableTime.end >= start && availableTime.end <= end;
+                    availableTime.start <= end && availableTime.end >= end;
 
                 return matchUserId && matchStart && matchEnd;
             },
         );
+
+        console.log(availableTimesInTheSameDate);
 
         return availableTimesInTheSameDate;
     }

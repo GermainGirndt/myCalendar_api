@@ -30,6 +30,8 @@ class CreateAvailableTimeForAppointmentsService {
             fromUserId,
         });
 
+        console.log('Request --');
+
         await checkIfTimeCanBeSetAsAvailable({
             availableTimesForAppointmentsRepository: this
                 .availableTimeForAppointmentsRepository,
