@@ -73,11 +73,9 @@ export default class FakeAvailableTimeForAppointmentsRepository
                 const matchEnd =
                     availableTime.start <= end && availableTime.end >= end;
 
-                return matchUserId && matchStart && matchEnd;
+                return matchUserId && (matchStart || matchEnd);
             },
         );
-
-        console.log(availableTimesInTheSameDate);
 
         return availableTimesInTheSameDate;
     }
