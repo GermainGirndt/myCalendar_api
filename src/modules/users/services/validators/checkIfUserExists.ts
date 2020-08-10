@@ -10,10 +10,13 @@ export default async function checkIfUserAlreadyExists({
     usersRepository,
     email,
 }: ValidationRequestDTO): Promise<void> {
-    const user = usersRepository.findUserByEmail({ email });
+    const user = await usersRepository.findUserByEmail({ email });
 
     // Internal error: generates no http response
-    if (user) {
+    console.log(email);
+    if (!!user) {
+        console.log('exists!');
+        console.log(user);
         throw new AppError('Email address already exists');
     }
 }

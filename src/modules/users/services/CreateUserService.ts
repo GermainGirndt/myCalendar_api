@@ -9,6 +9,8 @@ import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
 
 import checkIfUserExists from '@modules/users/services/validators/checkIfUserExists';
 
+import AppError from '@shared/errors/AppError';
+
 @injectable()
 class CreateUserService {
     constructor(
@@ -26,8 +28,11 @@ class CreateUserService {
         surname,
         password,
         email,
-    }: ICreateUserDTO): Promise<User> {
-        //checkIfUserExists({ usersRepository: this.usersRepository, email });
+    }: ICreateUserDTO): Promise<User | undefined> {
+        await checkIfUserExists({
+            usersRepository: this.usersRepository,
+            email,
+        });
 
         const hashedPassword = await this.hashProvider.generateHash(password);
 
