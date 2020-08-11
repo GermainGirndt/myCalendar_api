@@ -67,9 +67,10 @@ export default class AppointmentsRepository implements IAppointmentsRepository {
                 where: [
                     {
                         for_user_id: forUserId,
+                        start: Between(start, end),
                     },
                     {
-                        start: Between(start, end),
+                        for_user_id: forUserId,
                         end: Between(start, end),
                     },
                 ],

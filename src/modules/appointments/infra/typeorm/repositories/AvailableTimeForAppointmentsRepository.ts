@@ -68,8 +68,8 @@ export default class AvailableTimeForAppointmentsRepository
     > {
         const availableTimesInTheSameDate = await this.ormRepository.findOne({
             where: [
-                { from_user_id: fromUserId },
-                { start: Between(start, end), end: Between(start, end) },
+                { from_user_id: fromUserId, start: Between(start, end) },
+                { from_user_id: fromUserId, end: Between(start, end) },
             ],
         });
 
