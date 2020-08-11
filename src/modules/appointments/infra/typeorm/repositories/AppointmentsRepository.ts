@@ -2,7 +2,13 @@ import Appointment from '@modules/appointments/infra/typeorm/entities/Appointmen
 import IBookAppointmentDTO from '@modules/appointments/dtos/IBookAppointmentDTO';
 import IFindAppointmentBetweenDatesForAvailableTimeDTO from '@modules/appointments/dtos/IFindAppointmentBetweenDatesForAvailableTimeDTO';
 import IFindAppointmentBetweenDatesForUserDTO from '@modules/appointments/dtos/IFindAppointmentBetweenDatesForUserDTO';
-import { getRepository, Repository, Between } from 'typeorm';
+import {
+    getRepository,
+    Repository,
+    Between,
+    MoreThanOrEqual,
+    LessThanOrEqual,
+} from 'typeorm';
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 
 export default class AppointmentsRepository implements IAppointmentsRepository {
@@ -48,6 +54,11 @@ export default class AppointmentsRepository implements IAppointmentsRepository {
                         end: Between(start, end),
                         from_available_time_id: availableTimeForAppointmentId,
                     },
+                    {
+                        from_available_time_id: availableTimeForAppointmentId,
+                        start: LessThanOrEqual(start),
+                        end: MoreThanOrEqual(end),
+                    },
                 ],
             },
         );
@@ -72,6 +83,11 @@ export default class AppointmentsRepository implements IAppointmentsRepository {
                     {
                         for_user_id: forUserId,
                         end: Between(start, end),
+                    },
+                    {
+                        from_user_id: forUserId,
+                        start: LessThanOrEqual(start),
+                        end: MoreThanOrEqual(end),
                     },
                 ],
             },

@@ -40,15 +40,20 @@ export default class FakeAppointmentsRepository
     > {
         const bookedAppointmentsInAvailableTime = await this.fakeAppointmentsRepository.find(
             appointment => {
-                const matchUserId =
+                const matchAvailableTimeId =
                     appointment.from_available_time_id ===
                     availableTimeForAppointmentId;
                 const matchStart =
                     appointment.start <= start && appointment.end >= start;
+                const matchMiddle =
+                    appointment.start <= start && appointment.end >= end;
                 const matchEnd =
                     appointment.start <= end && appointment.end >= end;
 
-                return matchUserId && (matchStart || matchEnd);
+                return (
+                    matchAvailableTimeId &&
+                    (matchStart || matchMiddle || matchEnd)
+                );
             },
         );
 
@@ -62,15 +67,19 @@ export default class FakeAppointmentsRepository
     }: IFindAppointmentBetweenDatesForUserDTO): Promise<
         Appointment | undefined
     > {
+        // return true if appointments repository contains
+        // any common point between start/end dates
         const bookedAppointmentsBetweenDates = await this.fakeAppointmentsRepository.find(
             appointment => {
                 const matchUserId = appointment.for_user_id === forUserId;
                 const matchStart =
                     appointment.start <= start && appointment.end >= start;
+                const matchMiddle =
+                    appointment.start <= start && appointment.end >= end;
                 const matchEnd =
                     appointment.start <= end && appointment.end >= end;
 
-                return matchUserId && (matchStart || matchEnd);
+                return matchUserId && (matchStart || matchMiddle || matchEnd);
             },
         );
 

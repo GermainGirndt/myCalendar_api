@@ -66,14 +66,13 @@ export default class FakeAvailableTimeForAppointmentsRepository
     }: IFindAvailableTimeFromUserBetweenDatesDTO): Promise<
         AvailableTimeForAppointments | undefined
     > {
-        // return true if the available time contain start and end values
+        // return true if the available time repository
+        // completly contain the start and end values
         const availableTimesInTheSameDate = await this.fakeAvailableTimeRepository.find(
             availableTime => {
                 const matchUserId = availableTime.from_user_id === fromUserId;
-                const matchStart =
-                    availableTime.start <= start && availableTime.start < end;
-                const matchEnd =
-                    availableTime.end >= end && availableTime.end > start;
+                const matchStart = availableTime.start <= start;
+                const matchEnd = availableTime.end >= end;
 
                 return matchUserId && matchStart && matchEnd;
             },
@@ -89,17 +88,19 @@ export default class FakeAvailableTimeForAppointmentsRepository
     }: IFindAvailableTimeFromUserPassingThroughDatesDTO): Promise<
         AvailableTimeForAppointments | undefined
     > {
-        // return true if the start and end values touch
-        // a user's available time at any point
+        // return true if availabletime repository contains
+        // any common point between start/end dates
         const availableTimesInTheSameDate = await this.fakeAvailableTimeRepository.find(
             availableTime => {
                 const matchUserId = availableTime.from_user_id === fromUserId;
                 const matchStart =
-                    availableTime.start <= start && availableTime.start >= end;
+                    availableTime.start >= start && availableTime.start <= end;
+                const matchMiddle =
+                    availableTime.start <= start && availableTime.end >= end;
                 const matchEnd =
                     availableTime.end >= start && availableTime.end <= end;
 
-                return matchUserId && (matchStart || matchEnd);
+                return matchUserId && (matchStart || matchMiddle || matchEnd);
             },
         );
 
