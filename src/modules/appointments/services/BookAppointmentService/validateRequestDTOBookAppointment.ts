@@ -11,9 +11,12 @@ export default function validateRequestDTOBookAppointment({
     start,
     end,
 }: IBookAppointmentDTO): void {
-    if (!isValid(start) || !start) {
+    if (Object.prototype.toString.call(start) !== '[object Date]' || !start) {
         throw new AppError('Please insert a valid appointment start date');
-    } else if (!isValid(end) || !end) {
+    } else if (
+        Object.prototype.toString.call(end) !== '[object Date]' ||
+        !end
+    ) {
         throw new AppError('Please insert a valid appointment end date');
     } else if (isBefore(start, Date.now())) {
         throw new AppError('The start date may not be in the past');

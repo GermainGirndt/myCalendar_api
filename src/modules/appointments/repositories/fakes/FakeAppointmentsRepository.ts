@@ -20,8 +20,8 @@ export default class FakeAppointmentsRepository
 
         Object.assign(appointment, {
             id: uuid(),
-            fromAvailableTimeId,
-            forUserId,
+            from_available_time_id: fromAvailableTimeId,
+            for_user_id: forUserId,
             start,
             end,
         });

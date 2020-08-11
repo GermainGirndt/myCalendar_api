@@ -13,10 +13,7 @@ export default async function checkIfUserAlreadyExists({
     const user = await usersRepository.findUserByEmail({ email });
 
     // Internal error: generates no http response
-    console.log(email);
     if (!!user) {
-        console.log('exists!');
-        console.log(user);
         throw new AppError('Email address already exists');
     }
 }

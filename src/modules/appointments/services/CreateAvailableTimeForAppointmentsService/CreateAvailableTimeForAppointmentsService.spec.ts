@@ -62,7 +62,7 @@ describe('Create Available Time For Appointment', () => {
         startTimestamp2 = new Date(
             new Date().setHours(
                 endTimestamp.getHours(),
-                endTimestamp.getMinutes() + 1,
+                endTimestamp.getMinutes() + 2,
             ),
         );
 
@@ -113,11 +113,10 @@ describe('Create Available Time For Appointment', () => {
             password: '123456',
         });
 
-        const start = '2025-01-10T10:00:01';
-        const end = '2025-01-10T11:00:00';
-
-        const startTimestamp = new Date(start);
-        const endTimestamp = new Date(end);
+        const startTimestamp = new Date(new Date().getTime());
+        const endTimestamp = new Date(
+            new Date().setHours(startTimestamp.getHours() + 1),
+        );
 
         await createAvailableTimeForAppointmentsService.execute({
             start: startTimestamp,

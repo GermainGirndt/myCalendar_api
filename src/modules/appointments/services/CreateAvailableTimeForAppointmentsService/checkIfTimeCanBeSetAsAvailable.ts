@@ -13,11 +13,11 @@ export default async function checkIfAppointmentCanBeAvailableinDB({
     end,
     fromUserId,
 }: ValidationRequestDTO): Promise<void> {
-    const availableTimeForAppointmentInTheSameDate = await availableTimesForAppointmentsRepository.findAvailableTimeFromUserBetweenDates(
+    const availableTimeForAppointmentInTheSameDate = await availableTimesForAppointmentsRepository.findAvailableTimeFromUserPassingThroughDates(
         { start, end, fromUserId },
     );
 
-    if (!!availableTimeForAppointmentInTheSameDate) {
+    if (availableTimeForAppointmentInTheSameDate) {
         throw new AppError(
             'The selected time interval is already set as available',
         );

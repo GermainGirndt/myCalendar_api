@@ -1,5 +1,6 @@
 import ICreateAvailableTimeForAppointmentsDTO from '@modules/appointments/dtos/ICreateAvailableTimeForAppointmentsDTO';
 import IFindAvailableTimeFromUserBetweenDatesDTO from '@modules/appointments/dtos/IFindAvailableTimeFromUserBetweenDatesDTO';
+import IFindAvailableTimeFromUserPassingThroughDatesDTO from '@modules/appointments/dtos/IFindAvailableTimeFromUserPassingThroughDatesDTO';
 import IFindAllAvailableTimeFromUserIdDTO from '@modules/appointments/dtos/IFindAllAvailableTimeFromUserIdDTO';
 import IFindAvailableTimeByIdDTO from '@modules/appointments/dtos/IFindAvailableTimeByIdDTO';
 
@@ -24,5 +25,9 @@ export default interface IAvailableTimeForAppointmentsRepository {
 
     findAvailableTimeFromUserBetweenDates(
         data: IFindAvailableTimeFromUserBetweenDatesDTO,
+    ): Promise<AvailableTimeForAppointments | undefined>;
+
+    findAvailableTimeFromUserPassingThroughDates(
+        data: IFindAvailableTimeFromUserPassingThroughDatesDTO,
     ): Promise<AvailableTimeForAppointments | undefined>;
 }

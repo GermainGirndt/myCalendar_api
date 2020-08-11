@@ -1,6 +1,7 @@
 import IAvailableTimeForAppointmentsRepository from '@modules/appointments/repositories/IAvailableTimeForAppointmentsRepository';
 
 import IFindAvailableTimeFromUserBetweenDatesDTO from '@modules/appointments/dtos/IFindAvailableTimeFromUserBetweenDatesDTO';
+import IFindAvailableTimeFromUserPassingThroughDatesDTO from '@modules/appointments/dtos/IFindAvailableTimeFromUserPassingThroughDatesDTO';
 import ICreateAvailableTimeForAppointmentsDTO from '@modules/appointments/dtos/ICreateAvailableTimeForAppointmentsDTO';
 import IFindAllAvailableTimeFromUserIdDTO from '@modules/appointments/dtos/IFindAllAvailableTimeFromUserIdDTO';
 import IFindAvailableTimeByIdDTO from '@modules/appointments/dtos/IFindAvailableTimeByIdDTO';
@@ -65,13 +66,38 @@ export default class FakeAvailableTimeForAppointmentsRepository
     }: IFindAvailableTimeFromUserBetweenDatesDTO): Promise<
         AvailableTimeForAppointments | undefined
     > {
+        // return true if the available time contain start and end values
         const availableTimesInTheSameDate = await this.fakeAvailableTimeRepository.find(
             availableTime => {
                 const matchUserId = availableTime.from_user_id === fromUserId;
                 const matchStart =
-                    availableTime.start <= start && availableTime.end >= start;
+                    availableTime.start <= start && availableTime.start < end;
                 const matchEnd =
-                    availableTime.start <= end && availableTime.end >= end;
+                    availableTime.end >= end && availableTime.end > start;
+
+                return matchUserId && matchStart && matchEnd;
+            },
+        );
+
+        return availableTimesInTheSameDate;
+    }
+
+    public async findAvailableTimeFromUserPassingThroughDates({
+        fromUserId,
+        start,
+        end,
+    }: IFindAvailableTimeFromUserPassingThroughDatesDTO): Promise<
+        AvailableTimeForAppointments | undefined
+    > {
+        // return true if the start and end values touch
+        // a user's available time at any point
+        const availableTimesInTheSameDate = await this.fakeAvailableTimeRepository.find(
+            availableTime => {
+                const matchUserId = availableTime.from_user_id === fromUserId;
+                const matchStart =
+                    availableTime.start <= start && availableTime.start >= end;
+                const matchEnd =
+                    availableTime.end >= start && availableTime.end <= end;
 
                 return matchUserId && (matchStart || matchEnd);
             },
