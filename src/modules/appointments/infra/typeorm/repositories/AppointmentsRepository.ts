@@ -2,6 +2,9 @@ import Appointment from '@modules/appointments/infra/typeorm/entities/Appointmen
 import IBookAppointmentDTO from '@modules/appointments/dtos/IBookAppointmentDTO';
 import IFindAppointmentBetweenDatesForAvailableTimeDTO from '@modules/appointments/dtos/IFindAppointmentBetweenDatesForAvailableTimeDTO';
 import IFindAppointmentBetweenDatesForUserDTO from '@modules/appointments/dtos/IFindAppointmentBetweenDatesForUserDTO';
+import IFindAllAppointmentsForUserIdDTO from '@modules/appointments/dtos/IFindAllAppointmentsForUserIdDTO';
+import IAllAppointmentsForUserId from '@modules/appointments/dtos/IAllAppointmentsForUserId';
+
 import {
     getRepository,
     Repository,
@@ -85,7 +88,7 @@ export default class AppointmentsRepository implements IAppointmentsRepository {
                         end: Between(start, end),
                     },
                     {
-                        from_user_id: forUserId,
+                        for_user_id: forUserId,
                         start: LessThanOrEqual(start),
                         end: MoreThanOrEqual(end),
                     },
@@ -94,5 +97,31 @@ export default class AppointmentsRepository implements IAppointmentsRepository {
         );
 
         return bookedAppointmentsBetweenDates;
+    }
+
+    public async findAllForUserId({
+        userId,
+    }: IFindAllAppointmentsForUserIdDTO): Promise<IAllAppointmentsForUserId> {
+        const appointmentsAsClient = await this.ormRepository.find({
+            where: [{ for_user_id: userId }],
+        });
+
+        const appointmentsAsServiceProvider = await this.ormRepository
+            .createQueryBuilder('appointments')
+            .innerJoinAndSelect(
+                'appointments.AppointmentFromAvailableTime',
+                'available_time_for_appointments',
+            )
+            .where('available_time_for_appointments.from_user_id = :id', {
+                id: `${userId}`,
+            })
+            .getMany();
+
+        const bookedAppointments = {
+            appointmentsAsClient,
+            appointmentsAsServiceProvider,
+        };
+
+        return bookedAppointments;
     }
 }

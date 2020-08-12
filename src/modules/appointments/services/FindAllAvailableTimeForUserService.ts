@@ -6,7 +6,7 @@ import IFindAllAvailableTimeFromUserIdDTO from '@modules/appointments/dtos/IFind
 import AvailableTimeForAppointments from '@modules/appointments/infra/typeorm/entities/AvailableTimeForAppointments';
 
 @injectable()
-export default class FindAvailableTimeForUserService {
+export default class FindAllAvailableTimeForUserService {
     constructor(
         @inject('AvailableTimeForAppointmentsRepository')
         private availableTimeForAppointmentsRepository: IAvailableTimeForAppointmentsRepository,
@@ -19,7 +19,7 @@ export default class FindAvailableTimeForUserService {
     }: IFindAllAvailableTimeFromUserIdDTO): Promise<
         AvailableTimeForAppointments[] | undefined
     > {
-        const availableTimeForUser = this.availableTimeForAppointmentsRepository.findAllFromUserId(
+        const availableTimeForUser = await this.availableTimeForAppointmentsRepository.findAllFromUserId(
             { userId },
         );
 

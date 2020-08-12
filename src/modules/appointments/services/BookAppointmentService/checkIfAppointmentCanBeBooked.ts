@@ -37,6 +37,7 @@ export default async function checkIfAppointmentCanBeBooked({
             'The selected time interval for booking is not set as available',
         );
     }
+
     // check if there isn't an appointment booked in the same date within the available time;
 
     const bookedAppointmentInTheSameDateForTheSameAvailableTime = await appointmentsRepository.findAppointmentBetweenDatesForAvailableTime(

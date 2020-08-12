@@ -2,6 +2,8 @@ import Appointment from '@modules/appointments/infra/typeorm/entities/Appointmen
 import IBookAppointmentDTO from '@modules/appointments/dtos/IBookAppointmentDTO';
 import IFindAppointmentBetweenDatesForAvailableTimeDTO from '@modules/appointments/dtos/IFindAppointmentBetweenDatesForAvailableTimeDTO';
 import IFindAppointmentBetweenDatesForUserDTO from '@modules/appointments/dtos/IFindAppointmentBetweenDatesForUserDTO';
+import IFindAllAppointmentsForUserIdDTO from '@modules/appointments/dtos/IFindAllAppointmentsForUserIdDTO';
+import IAllAppointmentsForUserId from '@modules/appointments/dtos/IAllAppointmentsForUserId';
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 
 import { uuid } from 'uuidv4';
@@ -84,5 +86,31 @@ export default class FakeAppointmentsRepository
         );
 
         return bookedAppointmentsBetweenDates;
+    }
+
+    public async findAllForUserId({
+        userId,
+    }: IFindAllAppointmentsForUserIdDTO): Promise<IAllAppointmentsForUserId> {
+        const appointmentsAsClient = await this.fakeAppointmentsRepository.filter(
+            appointment => {
+                return appointment.for_user_id === userId;
+            },
+        );
+
+        const appointmentsAsServiceProvider = await this.fakeAppointmentsRepository.filter(
+            appointment => {
+                return (
+                    appointment.AppointmentFromAvailableTime.from_user_id ===
+                    userId
+                );
+            },
+        );
+
+        const allAppointments = {
+            appointmentsAsClient,
+            appointmentsAsServiceProvider,
+        };
+
+        return allAppointments;
     }
 }

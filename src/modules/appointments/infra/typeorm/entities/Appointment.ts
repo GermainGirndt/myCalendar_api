@@ -8,8 +8,8 @@ import {
     JoinColumn,
 } from 'typeorm';
 
-import AvailableTimeForAppointments from './AvailableTimeForAppointments';
 import User from '@modules/users/infra/typeorm/entities/User';
+import AvailableTimeForAppointments from '@modules/appointments/infra/typeorm/entities/AvailableTimeForAppointments';
 
 @Entity('appointments')
 class Appointment {
@@ -19,7 +19,7 @@ class Appointment {
     @Column()
     from_available_time_id: string;
 
-    @ManyToOne(() => User)
+    @ManyToOne(() => AvailableTimeForAppointments)
     @JoinColumn({ name: 'from_available_time_id' })
     AppointmentFromAvailableTime: AvailableTimeForAppointments;
 

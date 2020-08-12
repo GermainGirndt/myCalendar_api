@@ -13,9 +13,7 @@ class CreateAvailableTimeForAppointmentsService {
     constructor(
         @inject('AvailableTimeForAppointmentsRepository')
         private availableTimeForAppointmentsRepository: IAvailableTimeForAppointmentsRepository,
-    ) {
-        this.availableTimeForAppointmentsRepository = availableTimeForAppointmentsRepository;
-    }
+    ) {}
 
     public async execute({
         start,

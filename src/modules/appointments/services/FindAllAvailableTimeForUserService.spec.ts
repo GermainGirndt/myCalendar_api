@@ -3,14 +3,14 @@ import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepo
 import FakeAvailableTimeForAppointmentsRepository from './../repositories/fakes/FakeAvailableTimeForAppointmentsRepository';
 
 import CreateAvailableTimeForAppointmentsService from './CreateAvailableTimeForAppointmentsService';
-import FindAvailableTimeForUserService from './FindAvailableTimeForUserService';
+import FindAllAvailableTimeForUserService from './FindAllAvailableTimeForUserService';
 import AppError from '@shared/errors/AppError';
 import AvailableTime from '../infra/typeorm/entities/AvailableTimeForAppointments';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeAvailableTimeForAppointmentsRepository: FakeAvailableTimeForAppointmentsRepository;
 let createAvailableTimeForAppointmentsService: CreateAvailableTimeForAppointmentsService;
-let findAvailableTimeForUserService: FindAvailableTimeForUserService;
+let findAllAvailableTimeForUserService: FindAllAvailableTimeForUserService;
 
 let startTimestamp: Date;
 let endTimestamp: Date;
@@ -24,7 +24,7 @@ describe('Create Available Time For Appointment', () => {
             fakeAvailableTimeForAppointmentsRepository,
         );
 
-        findAvailableTimeForUserService = new FindAvailableTimeForUserService(
+        findAllAvailableTimeForUserService = new FindAllAvailableTimeForUserService(
             fakeAvailableTimeForAppointmentsRepository,
         );
     });
@@ -46,9 +46,11 @@ describe('Create Available Time For Appointment', () => {
             { start: startTimestamp, end: endTimestamp, fromUserId: user.id },
         );
 
-        const availableTime = (await findAvailableTimeForUserService.execute({
-            userId: user.id,
-        })) as AvailableTime[];
+        const availableTime = (await findAllAvailableTimeForUserService.execute(
+            {
+                userId: user.id,
+            },
+        )) as AvailableTime[];
 
         expect(availableTimeForAppointments.start).toBe(startTimestamp);
         expect(availableTimeForAppointments.end).toBe(endTimestamp);
@@ -66,7 +68,7 @@ describe('Create Available Time For Appointment', () => {
             password: '123456',
         });
 
-        const availableTime = await findAvailableTimeForUserService.execute({
+        const availableTime = await findAllAvailableTimeForUserService.execute({
             userId: user.id,
         });
 

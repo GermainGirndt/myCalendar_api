@@ -4,18 +4,18 @@ import { Request, Response } from 'express';
 import { parseISO } from 'date-fns';
 
 import CreateAvailableTimeForAppointmentsService from '@modules/appointments/services/CreateAvailableTimeForAppointmentsService';
-import FindAvailableTimeForUserService from '@modules/appointments/services/FindAvailableTimeForUserService';
+import FindAllAvailableTimeForUserService from '@modules/appointments/services/FindAllAvailableTimeForUserService';
 
 export default class AvailableTimeForAppointmentsController {
     async index(request: Request, response: Response): Promise<Response> {
         try {
             const { user_id } = request.params;
 
-            const findAvailableTimeForUserService = container.resolve(
-                FindAvailableTimeForUserService,
+            const findAllAvailableTimeForUserService = container.resolve(
+                FindAllAvailableTimeForUserService,
             );
 
-            const availableTimes = await findAvailableTimeForUserService.execute(
+            const availableTimes = await findAllAvailableTimeForUserService.execute(
                 { userId: user_id },
             );
 

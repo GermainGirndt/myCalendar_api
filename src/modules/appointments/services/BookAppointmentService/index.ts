@@ -15,7 +15,7 @@ class BookAppointmentService {
         @inject('AppointmentsRepository')
         private appointmentsRepository: IAppointmentsRepository,
 
-        @inject('AppointmentsRepository')
+        @inject('AvailableTimeForAppointmentsRepository')
         private availableTimeForAppointmentsRepository: IAvailableTimeForAppointmentsRepository,
     ) {
         this.appointmentsRepository = appointmentsRepository;
@@ -44,6 +44,8 @@ class BookAppointmentService {
             start,
             end,
         });
+
+        console.log('can be booked');
 
         const newAppointment = this.appointmentsRepository.create({
             fromAvailableTimeId,
