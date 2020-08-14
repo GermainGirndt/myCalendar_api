@@ -1,7 +1,7 @@
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 
 import FakeAvailableTimeForAppointmentsRepository from '@modules/appointments/repositories/fakes/FakeAvailableTimeForAppointmentsRepository';
-import CreateAvailableTimeForAppointmentsService from '@modules/appointments/services/CreateAvailableTimeForAppointmentsService';
+import CreateAvailableTimeForAppointmentsService from '@modules/appointments/services/AvailableTime/CreateAvailableTimeForAppointmentsService';
 
 import AppError from '@shared/errors/AppError';
 

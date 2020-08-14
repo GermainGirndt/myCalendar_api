@@ -5,8 +5,8 @@ import ICreateAvailableTimeForAppointmentsDTO from '@modules/appointments/dtos/A
 
 import AvailableTimeForAppointments from '@modules/appointments/infra/typeorm/entities/AvailableTimeForAppointments';
 
-import checkIfTimeCanBeSetAsAvailable from '@modules/appointments/services/CreateAvailableTimeForAppointmentsService/checkIfTimeCanBeSetAsAvailable';
-import validateRequestDTOCreateAvailableAppointment from '@modules/appointments/services/CreateAvailableTimeForAppointmentsService/validateRequestDTOCreateAvailableAppointment';
+import checkIfTimeCanBeSetAsAvailable from '@modules/appointments/services/AvailableTime/CreateAvailableTimeForAppointmentsService/checkIfTimeCanBeSetAsAvailable';
+import validateRequestDTOCreateAvailableAppointment from '@modules/appointments/services/AvailableTime/CreateAvailableTimeForAppointmentsService/validateRequestDTOCreateAvailableAppointment';
 
 @injectable()
 class CreateAvailableTimeForAppointmentsService {

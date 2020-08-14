@@ -1,11 +1,11 @@
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
-import FakeAvailableTimeForAppointmentsRepository from './../repositories/fakes/FakeAvailableTimeForAppointmentsRepository';
+import FakeAvailableTimeForAppointmentsRepository from '@modules/appointments/repositories/fakes/FakeAvailableTimeForAppointmentsRepository';
 import FakeAppointmentsRepository from '@modules/appointments/repositories/fakes/FakeAppointmentsRepository';
 
 import User from '@modules/users/infra/typeorm/entities/User';
 
-import BookAppointmentService from '@modules/appointments/services/BookAppointmentService';
-import CreateAvailableTimeForAppointmentsService from './CreateAvailableTimeForAppointmentsService';
+import BookAppointmentService from '@modules/appointments/services/Appointments/BookAppointmentService';
+import CreateAvailableTimeForAppointmentsService from '@modules/appointments/services/AvailableTime/CreateAvailableTimeForAppointmentsService';
 import FindAllAppointmentsForUserService from './FindAllAppointmentsForUserService';
 
 let fakeUsersRepository: FakeUsersRepository;

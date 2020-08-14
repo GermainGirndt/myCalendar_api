@@ -3,8 +3,8 @@ import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepo
 import FakeAvailableTimeForAppointmentsRepository from '@modules/appointments/repositories/fakes/FakeAvailableTimeForAppointmentsRepository';
 import FakeAppointmentsRepoistory from '@modules/appointments/repositories/fakes/FakeAppointmentsRepository';
 
-import CreateAvailableTimeForAppointmentsService from '@modules/appointments/services/CreateAvailableTimeForAppointmentsService';
-import BookAppointmentService from '@modules/appointments/services/BookAppointmentService';
+import CreateAvailableTimeForAppointmentsService from '@modules/appointments/services/AvailableTime/CreateAvailableTimeForAppointmentsService';
+import BookAppointmentService from '@modules/appointments/services/Appointments/BookAppointmentService';
 
 import User from '@modules/users/infra/typeorm/entities/User';
 

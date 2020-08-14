@@ -3,8 +3,8 @@ import { container } from 'tsyringe';
 import { Request, Response } from 'express';
 import { parseISO } from 'date-fns';
 
-import CreateAvailableTimeForAppointmentsService from '@modules/appointments/services/CreateAvailableTimeForAppointmentsService';
-import FindAllAvailableTimeForUserService from '@modules/appointments/services/FindAllAvailableTimeForUserService';
+import CreateAvailableTimeForAppointmentsService from '@modules/appointments/services/AvailableTime/CreateAvailableTimeForAppointmentsService';
+import FindAllAvailableTimeForUserService from '@modules/appointments/services/AvailableTime/FindAllAvailableTimeForUserService';
 
 export default class AvailableTimeForAppointmentsController {
     async index(request: Request, response: Response): Promise<Response> {

@@ -4,9 +4,9 @@ import { Request, Response } from 'express';
 
 import { parseISO } from 'date-fns';
 
-import BookAppointmentService from '@modules/appointments/services/BookAppointmentService';
+import BookAppointmentService from '@modules/appointments/services/Appointments/BookAppointmentService';
 
-import FindAllAppointmentsForUserService from '@modules/appointments/services/FindAllAppointmentsForUserService';
+import FindAllAppointmentsForUserService from '@modules/appointments/services/Appointments/FindAllAppointmentsForUserService';
 
 export default class AppointmentsController {
     async index(request: Request, response: Response): Promise<Response> {
