@@ -1,9 +1,9 @@
 import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
-import IBookAppointmentDTO from '@modules/appointments/dtos/IBookAppointmentDTO';
-import IFindAppointmentBetweenDatesForAvailableTimeDTO from '@modules/appointments/dtos/IFindAppointmentBetweenDatesForAvailableTimeDTO';
-import IFindAppointmentBetweenDatesForUserDTO from '@modules/appointments/dtos/IFindAppointmentBetweenDatesForUserDTO';
-import IFindAllAppointmentsForUserIdDTO from '@modules/appointments/dtos/IFindAllAppointmentsForUserIdDTO';
-import IAllAppointmentsForUserId from '@modules/appointments/dtos/IAllAppointmentsForUserId';
+import IBookAppointmentDTO from '@modules/appointments/dtos/Appointments/IBookAppointmentDTO';
+import IFindAppointmentBetweenDatesForAvailableTimeDTO from '@modules/appointments/dtos/Appointments/IFindAppointmentBetweenDatesForAvailableTimeDTO';
+import IFindAppointmentBetweenDatesForUserDTO from '@modules/appointments/dtos/Appointments/IFindAppointmentBetweenDatesForUserDTO';
+import IFindAllAppointmentsForUserIdDTO from '@modules/appointments/dtos/Appointments/IFindAllAppointmentsForUserIdDTO';
+import IAllAppointmentsForUserId from '@modules/appointments/dtos/Appointments/IAllAppointmentsForUserId';
 
 import {
     getRepository,

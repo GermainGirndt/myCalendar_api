@@ -1,9 +1,9 @@
 import { injectable, inject } from 'tsyringe';
 
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
-import IFindAllAppointmentsForUserIdDTO from '@modules/appointments/dtos/IFindAllAppointmentsForUserIdDTO';
+import IFindAllAppointmentsForUserIdDTO from '@modules/appointments/dtos/Appointments/IFindAllAppointmentsForUserIdDTO';
 
-import IAllAppointmentsForUserId from '@modules/appointments/dtos/IAllAppointmentsForUserId';
+import IAllAppointmentsForUserId from '@modules/appointments/dtos/Appointments/IAllAppointmentsForUserId';
 
 @injectable()
 export default class FindAllAppointmentsForUserService {

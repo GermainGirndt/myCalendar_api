@@ -4,7 +4,6 @@ import FakeAvailableTimeForAppointmentsRepository from './../repositories/fakes/
 
 import CreateAvailableTimeForAppointmentsService from './CreateAvailableTimeForAppointmentsService';
 import FindAllAvailableTimeForUserService from './FindAllAvailableTimeForUserService';
-import AppError from '@shared/errors/AppError';
 import AvailableTime from '../infra/typeorm/entities/AvailableTimeForAppointments';
 
 let fakeUsersRepository: FakeUsersRepository;

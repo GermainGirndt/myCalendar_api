@@ -1,8 +1,9 @@
 import { injectable, inject } from 'tsyringe';
 
-import IBookAppointmentDTO from '@modules/appointments/dtos/IBookAppointmentDTO';
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 import IAvailableTimeForAppointmentsRepository from '@modules/appointments/repositories/IAvailableTimeForAppointmentsRepository';
+
+import IBookAppointmentDTO from '@modules/appointments/dtos/Appointments/IBookAppointmentDTO';
 
 import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
 

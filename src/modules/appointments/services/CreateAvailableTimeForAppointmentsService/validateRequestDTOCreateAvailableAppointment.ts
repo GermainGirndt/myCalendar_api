@@ -1,6 +1,6 @@
-import ICreateAvailableTimeForAppointmentsDTO from '@modules/appointments/dtos/ICreateAvailableTimeForAppointmentsDTO';
+import ICreateAvailableTimeForAppointmentsDTO from '@modules/appointments/dtos/AvailableTime/ICreateAvailableTimeForAppointmentsDTO';
 
-import { isValid, isBefore } from 'date-fns';
+import { isBefore } from 'date-fns';
 import { isUuid } from 'uuidv4';
 
 import AppError from '@shared/errors/AppError';

@@ -1,4 +1,4 @@
-import IBookAppointmentDTO from '@modules/appointments/dtos/IBookAppointmentDTO';
+import IBookAppointmentDTO from '@modules/appointments/dtos/Appointments/IBookAppointmentDTO';
 
 import { isValid, isBefore } from 'date-fns';
 import { isUuid } from 'uuidv4';

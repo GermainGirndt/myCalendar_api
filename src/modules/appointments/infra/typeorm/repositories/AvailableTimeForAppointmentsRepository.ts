@@ -1,19 +1,17 @@
 import IAvailableTimeForAppointmentsRepository from '@modules/appointments/repositories/IAvailableTimeForAppointmentsRepository';
 
-import IFindAvailableTimeFromUserBetweenDatesDTO from '@modules/appointments/dtos/IFindAvailableTimeFromUserBetweenDatesDTO';
-import IFindAvailableTimeFromUserPassingThroughDatesDTO from '@modules/appointments/dtos/IFindAvailableTimeFromUserPassingThroughDatesDTO';
-import ICreateAvailableTimeForAppointmentsDTO from '@modules/appointments/dtos/ICreateAvailableTimeForAppointmentsDTO';
-import IFindAllAvailableTimeFromUserIdDTO from '@modules/appointments/dtos/IFindAllAvailableTimeFromUserIdDTO';
-import IFindAvailableTimeByIdDTO from '@modules/appointments/dtos/IFindAvailableTimeByIdDTO';
+import IFindAvailableTimeFromUserBetweenDatesDTO from '@modules/appointments/dtos/AvailableTime/IFindAvailableTimeFromUserBetweenDatesDTO';
+import IFindAvailableTimeFromUserPassingThroughDatesDTO from '@modules/appointments/dtos/AvailableTime/IFindAvailableTimeFromUserPassingThroughDatesDTO';
+import ICreateAvailableTimeForAppointmentsDTO from '@modules/appointments/dtos/AvailableTime/ICreateAvailableTimeForAppointmentsDTO';
+import IFindAllAvailableTimeFromUserIdDTO from '@modules/appointments/dtos/AvailableTime/IFindAllAvailableTimeFromUserIdDTO';
+import IFindAvailableTimeByIdDTO from '@modules/appointments/dtos/AvailableTime/IFindAvailableTimeByIdDTO';
 
 import {
     getRepository,
     Repository,
     Between,
     LessThanOrEqual,
-    LessThan,
     MoreThanOrEqual,
-    MoreThan,
 } from 'typeorm';
 
 import AvailableTimeForAppointments from '@modules/appointments/infra/typeorm/entities/AvailableTimeForAppointments';

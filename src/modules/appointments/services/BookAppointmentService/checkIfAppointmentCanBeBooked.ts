@@ -1,7 +1,7 @@
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 import IAvailableTimeForAppointmentsRepository from '@modules/appointments/repositories/IAvailableTimeForAppointmentsRepository';
 
-import IBookAppointmentDTO from '@modules/appointments/dtos/IBookAppointmentDTO';
+import IBookAppointmentDTO from '@modules/appointments/dtos/Appointments/IBookAppointmentDTO';
 
 import AppError from '@shared/errors/AppError';
 

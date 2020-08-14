@@ -1,8 +1,8 @@
-import ICreateAvailableTimeForAppointmentsDTO from '@modules/appointments/dtos/ICreateAvailableTimeForAppointmentsDTO';
-import IFindAvailableTimeFromUserBetweenDatesDTO from '@modules/appointments/dtos/IFindAvailableTimeFromUserBetweenDatesDTO';
-import IFindAvailableTimeFromUserPassingThroughDatesDTO from '@modules/appointments/dtos/IFindAvailableTimeFromUserPassingThroughDatesDTO';
-import IFindAllAvailableTimeFromUserIdDTO from '@modules/appointments/dtos/IFindAllAvailableTimeFromUserIdDTO';
-import IFindAvailableTimeByIdDTO from '@modules/appointments/dtos/IFindAvailableTimeByIdDTO';
+import ICreateAvailableTimeForAppointmentsDTO from '@modules/appointments/dtos/AvailableTime/ICreateAvailableTimeForAppointmentsDTO';
+import IFindAvailableTimeFromUserBetweenDatesDTO from '@modules/appointments/dtos/AvailableTime/IFindAvailableTimeFromUserBetweenDatesDTO';
+import IFindAvailableTimeFromUserPassingThroughDatesDTO from '@modules/appointments/dtos/AvailableTime/IFindAvailableTimeFromUserPassingThroughDatesDTO';
+import IFindAllAvailableTimeFromUserIdDTO from '@modules/appointments/dtos/AvailableTime/IFindAllAvailableTimeFromUserIdDTO';
+import IFindAvailableTimeByIdDTO from '@modules/appointments/dtos/AvailableTime/IFindAvailableTimeByIdDTO';
 
 import AvailableTimeForAppointments from '@modules/appointments/infra/typeorm/entities/AvailableTimeForAppointments';
 
