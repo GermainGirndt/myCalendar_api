@@ -7,6 +7,8 @@ import BookAppointmentService from '@modules/appointments/services/BookAppointme
 import CreateAvailableTimeForAppointmentsService from './CreateAvailableTimeForAppointmentsService';
 import FindAllAppointmentsForUserService from './FindAllAppointmentsForUserService';
 
+import User from '@modules/users/infra/typeorm/entities/User';
+
 let fakeUsersRepository: FakeUsersRepository;
 let fakeAvailableTimeForAppointmentsRepository: FakeAvailableTimeForAppointmentsRepository;
 let fakeAppointmentsRepository: FakeAppointmentsRepository;
@@ -15,15 +17,106 @@ let createAvailableTimeForAppointmentsService: CreateAvailableTimeForAppointment
 let findAllAppointmentsForUserService: FindAllAppointmentsForUserService;
 let bookAppointmentService: BookAppointmentService;
 
+let now: Date;
 let startTimestamp: Date;
 let endTimestamp: Date;
+let startTimestamp2: Date;
+let endTimestamp2: Date;
+let startTimestamp3: Date;
+let endTimestamp3: Date;
+
+let serviceProvider: User;
+let serviceProvider2: User;
+let customer: User;
+let customer2: User;
+let serviceProviderAndCustomer: User;
 
 describe('FindAllAppointmentsForuserService', () => {
-    beforeEach(() => {
+    beforeAll(async () => {
+        // Repositories Instances
+
         fakeUsersRepository = new FakeUsersRepository();
+
+        // Users instances
+
+        serviceProvider = await fakeUsersRepository.create({
+            email: 'alexturner@example.com',
+            forename: 'Alex',
+            surname: 'Turner',
+            password: '123456',
+        });
+
+        customer = await fakeUsersRepository.create({
+            email: 'johndoe@example.com',
+            forename: 'John',
+            surname: 'Doe',
+            password: '123456',
+        });
+
+        customer2 = await fakeUsersRepository.create({
+            email: 'johntre@example.com',
+            forename: 'John',
+            surname: 'Tre',
+            password: '123456',
+        });
+
+        serviceProvider2 = await fakeUsersRepository.create({
+            email: 'beatles@example.com',
+            forename: 'b',
+            surname: 'tles',
+            password: '123456',
+        });
+
+        serviceProviderAndCustomer = await fakeUsersRepository.create({
+            email: 'beatles@example.com',
+            forename: 'b',
+            surname: 'tles',
+            password: '123456',
+        });
+
+        // Time
+
+        now = new Date();
+        startTimestamp = new Date(new Date().setMinutes(now.getMinutes() + 5));
+        endTimestamp = new Date(
+            new Date().setHours(startTimestamp.getHours() + 1),
+        );
+
+        startTimestamp2 = new Date(
+            new Date().setHours(
+                endTimestamp.getHours(),
+                endTimestamp.getMinutes() + 5,
+            ),
+        );
+        endTimestamp2 = new Date(
+            new Date().setHours(
+                startTimestamp2.getHours(),
+                startTimestamp2.getMinutes(),
+            ),
+        );
+
+        startTimestamp3 = new Date(
+            new Date().setHours(
+                endTimestamp2.getHours(),
+                endTimestamp2.getMinutes() + 5,
+            ),
+        );
+        endTimestamp3 = new Date(
+            new Date().setHours(
+                startTimestamp3.getHours(),
+                startTimestamp3.getMinutes(),
+            ),
+        );
+    });
+
+    beforeEach(async () => {
+        // Repository instances
+
         fakeAvailableTimeForAppointmentsRepository = new FakeAvailableTimeForAppointmentsRepository();
 
         fakeAppointmentsRepository = new FakeAppointmentsRepository();
+
+        // Services
 
         createAvailableTimeForAppointmentsService = new CreateAvailableTimeForAppointmentsService(
             fakeAvailableTimeForAppointmentsRepository,
@@ -36,26 +129,6 @@ describe('FindAllAppointmentsForuserService', () => {
     });
 
     it('should be able to find an appointment from the same customer', async () => {
-        const serviceProvider = await fakeUsersRepository.create({
-            email: 'alexturner@example.com',
-            forename: 'Alex',
-            surname: 'Turner',
-            password: '123456',
-        });
-
-        const customer = await fakeUsersRepository.create({
-            email: 'johndoe@example.com',
-            forename: 'John',
-            surname: 'Doe',
-            password: '123456',
-        });
-
-        const now = new Date();
-        startTimestamp = new Date(new Date().setMinutes(now.getMinutes() + 1));
-        endTimestamp = new Date(
-            new Date().setHours(startTimestamp.getHours() + 1),
-        );
-
         const availableTime = await createAvailableTimeForAppointmentsService.execute(
             {
                 start: startTimestamp,
@@ -88,52 +161,6 @@ describe('FindAllAppointmentsForuserService', () => {
     });
 
     it('should be able to find multipe appointments from the same customer', async () => {
-        const serviceProvider = await fakeUsersRepository.create({
-            email: 'alexturner@example.com',
-            forename: 'Alex',
-            surname: 'Turner',
-            password: '123456',
-        });
-
-        const customer = await fakeUsersRepository.create({
-            email: 'johndoe@example.com',
-            forename: 'John',
-            surname: 'Doe',
-            password: '123456',
-        });
-
-        const now = new Date();
-        startTimestamp = new Date(new Date().setMinutes(now.getMinutes() + 1));
-        endTimestamp = new Date(
-            new Date().setHours(startTimestamp.getHours() + 1),
-        );
-
-        const startTimestamp2 = new Date(
-            new Date().setHours(
-                endTimestamp.getHours(),
-                endTimestamp.getMinutes() + 1,
-            ),
-        );
-        const endTimestamp2 = new Date(
-            new Date().setHours(
-                startTimestamp2.getHours(),
-                startTimestamp2.getMinutes(),
-            ),
-        );
-
-        const startTimestamp3 = new Date(
-            new Date().setHours(
-                endTimestamp2.getHours(),
-                endTimestamp2.getMinutes() + 1,
-            ),
-        );
-        const endTimestamp3 = new Date(
-            new Date().setHours(
-                startTimestamp3.getHours(),
-                startTimestamp3.getMinutes(),
-            ),
-        );
-
         const availableTime = await createAvailableTimeForAppointmentsService.execute(
             {
                 start: startTimestamp,
@@ -201,59 +228,6 @@ describe('FindAllAppointmentsForuserService', () => {
     });
 
     it('should be able to find multipe appointments different customers', async () => {
-        const serviceProvider = await fakeUsersRepository.create({
-            email: 'alexturner@example.com',
-            forename: 'Alex',
-            surname: 'Turner',
-            password: '123456',
-        });
-
-        const customer = await fakeUsersRepository.create({
-            email: 'johndoe@example.com',
-            forename: 'John',
-            surname: 'Doe',
-            password: '123456',
-        });
-
-        const customer2 = await fakeUsersRepository.create({
-            email: 'johntre@example.com',
-            forename: 'John',
-            surname: 'Tre',
-            password: '123456',
-        });
-
-        const now = new Date();
-        startTimestamp = new Date(new Date().setMinutes(now.getMinutes() + 1));
-        endTimestamp = new Date(
-            new Date().setHours(startTimestamp.getHours() + 1),
-        );
-
-        const startTimestamp2 = new Date(
-            new Date().setHours(
-                endTimestamp.getHours(),
-                endTimestamp.getMinutes() + 1,
-            ),
-        );
-        const endTimestamp2 = new Date(
-            new Date().setHours(
-                startTimestamp2.getHours(),
-                startTimestamp2.getMinutes(),
-            ),
-        );
-
-        const startTimestamp3 = new Date(
-            new Date().setHours(
-                endTimestamp2.getHours(),
-                endTimestamp2.getMinutes() + 1,
-            ),
-        );
-        const endTimestamp3 = new Date(
-            new Date().setHours(
-                startTimestamp3.getHours(),
-                startTimestamp3.getMinutes(),
-            ),
-        );
-
         const availableTime = await createAvailableTimeForAppointmentsService.execute(
             {
                 start: startTimestamp,
@@ -318,7 +292,6 @@ describe('FindAllAppointmentsForuserService', () => {
         );
 
         // checks for customer 1
-
         expect(allAppointments.appointmentsAsClient).toHaveLength(2);
         expect(allAppointments.appointmentsAsClient).toContain(appointment);
         expect(allAppointments.appointmentsAsClient).toContain(appointment3);
@@ -331,26 +304,6 @@ describe('FindAllAppointmentsForuserService', () => {
     });
 
     it('should be able to find an appointment for the same service provider', async () => {
-        const serviceProvider = await fakeUsersRepository.create({
-            email: 'alexturner@example.com',
-            forename: 'Alex',
-            surname: 'Turner',
-            password: '123456',
-        });
-
-        const customer = await fakeUsersRepository.create({
-            email: 'johndoe@example.com',
-            forename: 'John',
-            surname: 'Doe',
-            password: '123456',
-        });
-
-        const now = new Date();
-        startTimestamp = new Date(new Date().setMinutes(now.getMinutes() + 1));
-        endTimestamp = new Date(
-            new Date().setHours(startTimestamp.getHours() + 1),
-        );
-
         const availableTime = await createAvailableTimeForAppointmentsService.execute(
             {
                 start: startTimestamp,
@@ -385,52 +338,6 @@ describe('FindAllAppointmentsForuserService', () => {
     });
 
     it('should be able to find multiple appointments for the same service provider', async () => {
-        const serviceProvider = await fakeUsersRepository.create({
-            email: 'alexturner@example.com',
-            forename: 'Alex',
-            surname: 'Turner',
-            password: '123456',
-        });
-
-        const customer = await fakeUsersRepository.create({
-            email: 'johndoe@example.com',
-            forename: 'John',
-            surname: 'Doe',
-            password: '123456',
-        });
-
-        const now = new Date();
-        startTimestamp = new Date(new Date().setMinutes(now.getMinutes() + 1));
-        endTimestamp = new Date(
-            new Date().setHours(startTimestamp.getHours() + 1),
-        );
-
-        const startTimestamp2 = new Date(
-            new Date().setHours(
-                endTimestamp.getHours(),
-                endTimestamp.getMinutes() + 1,
-            ),
-        );
-        const endTimestamp2 = new Date(
-            new Date().setHours(
-                startTimestamp2.getHours(),
-                startTimestamp2.getMinutes(),
-            ),
-        );
-
-        const startTimestamp3 = new Date(
-            new Date().setHours(
-                endTimestamp2.getHours(),
-                endTimestamp2.getMinutes() + 1,
-            ),
-        );
-        const endTimestamp3 = new Date(
-            new Date().setHours(
-                startTimestamp3.getHours(),
-                startTimestamp3.getMinutes(),
-            ),
-        );
-
         const availableTime = await createAvailableTimeForAppointmentsService.execute(
             {
                 start: startTimestamp,
@@ -504,59 +411,6 @@ describe('FindAllAppointmentsForuserService', () => {
     });
 
     it('should be able to find multiple appointments for differents service providers', async () => {
-        const serviceProvider = await fakeUsersRepository.create({
-            email: 'alexturner@example.com',
-            forename: 'Alex',
-            surname: 'Turner',
-            password: '123456',
-        });
-
-        const serviceProvider2 = await fakeUsersRepository.create({
-            email: 'beatles@example.com',
-            forename: 'b',
-            surname: 'tles',
-            password: '123456',
-        });
-
-        const customer = await fakeUsersRepository.create({
-            email: 'johndoe@example.com',
-            forename: 'John',
-            surname: 'Doe',
-            password: '123456',
-        });
-
-        const now = new Date();
-        startTimestamp = new Date(new Date().setMinutes(now.getMinutes() + 1));
-        endTimestamp = new Date(
-            new Date().setHours(startTimestamp.getHours() + 1),
-        );
-
-        const startTimestamp2 = new Date(
-            new Date().setHours(
-                endTimestamp.getHours(),
-                endTimestamp.getMinutes() + 1,
-            ),
-        );
-        const endTimestamp2 = new Date(
-            new Date().setHours(
-                startTimestamp2.getHours(),
-                startTimestamp2.getMinutes(),
-            ),
-        );
-
-        const startTimestamp3 = new Date(
-            new Date().setHours(
-                endTimestamp2.getHours(),
-                endTimestamp2.getMinutes() + 1,
-            ),
-        );
-        const endTimestamp3 = new Date(
-            new Date().setHours(
-                startTimestamp3.getHours(),
-                startTimestamp3.getMinutes(),
-            ),
-        );
-
         const availableTime = await createAvailableTimeForAppointmentsService.execute(
             {
                 start: startTimestamp,
@@ -616,6 +470,13 @@ describe('FindAllAppointmentsForuserService', () => {
             },
         );
 
+        const allAppointments2 = await findAllAppointmentsForUserService.execute(
+            {
+                userId: serviceProvider2.id,
+            },
+        );
+
+        // allAppointments (service provider)
         expect(allAppointments.appointmentsAsClient).toHaveLength(0);
         expect(allAppointments.appointmentsAsServiceProvider).toHaveLength(2);
         expect(allAppointments.appointmentsAsServiceProvider).toContain(
@@ -625,12 +486,7 @@ describe('FindAllAppointmentsForuserService', () => {
             appointment3,
         );
 
-        const allAppointments2 = await findAllAppointmentsForUserService.execute(
-            {
-                userId: serviceProvider2.id,
-            },
-        );
-
+        // allAppointments2 (service provider2)
         expect(allAppointments2.appointmentsAsClient).toHaveLength(0);
         expect(allAppointments2.appointmentsAsServiceProvider).toHaveLength(1);
         expect(allAppointments2.appointmentsAsServiceProvider).toContain(
@@ -639,59 +495,6 @@ describe('FindAllAppointmentsForuserService', () => {
     });
 
     it('should be able to find multiple appointments for differents service providers and customers', async () => {
-        const serviceProvider = await fakeUsersRepository.create({
-            email: 'alexturner@example.com',
-            forename: 'Alex',
-            surname: 'Turner',
-            password: '123456',
-        });
-
-        const serviceProviderAndCustomer = await fakeUsersRepository.create({
-            email: 'beatles@example.com',
-            forename: 'b',
-            surname: 'tles',
-            password: '123456',
-        });
-
-        const customer = await fakeUsersRepository.create({
-            email: 'johndoe@example.com',
-            forename: 'John',
-            surname: 'Doe',
-            password: '123456',
-        });
-
-        const now = new Date();
-        startTimestamp = new Date(new Date().setMinutes(now.getMinutes() + 1));
-        endTimestamp = new Date(
-            new Date().setHours(startTimestamp.getHours() + 1),
-        );
-
-        const startTimestamp2 = new Date(
-            new Date().setHours(
-                endTimestamp.getHours(),
-                endTimestamp.getMinutes() + 1,
-            ),
-        );
-        const endTimestamp2 = new Date(
-            new Date().setHours(
-                startTimestamp2.getHours(),
-                startTimestamp2.getMinutes(),
-            ),
-        );
-
-        const startTimestamp3 = new Date(
-            new Date().setHours(
-                endTimestamp2.getHours(),
-                endTimestamp2.getMinutes() + 1,
-            ),
-        );
-        const endTimestamp3 = new Date(
-            new Date().setHours(
-                startTimestamp3.getHours(),
-                startTimestamp3.getMinutes(),
-            ),
-        );
-
         const availableTime = await createAvailableTimeForAppointmentsService.execute(
             {
                 start: startTimestamp,
@@ -751,6 +554,20 @@ describe('FindAllAppointmentsForuserService', () => {
             },
         );
 
+        const allAppointments2 = await findAllAppointmentsForUserService.execute(
+            {
+                userId: serviceProviderAndCustomer.id,
+            },
+        );
+
+        const allAppointments3 = await findAllAppointmentsForUserService.execute(
+            {
+                userId: customer.id,
+            },
+        );
+
+        // allAppointments(serviceProvider)
+
         expect(allAppointments.appointmentsAsClient).toHaveLength(0);
         expect(allAppointments.appointmentsAsServiceProvider).toHaveLength(2);
         expect(allAppointments.appointmentsAsServiceProvider).toContain(
@@ -763,11 +580,7 @@ describe('FindAllAppointmentsForuserService', () => {
             appointment3,
         );
 
-        const allAppointments2 = await findAllAppointmentsForUserService.execute(
-            {
-                userId: serviceProviderAndCustomer.id,
-            },
-        );
+        // allAppointments2 (serviceProviderAndCustomer)
 
         expect(allAppointments2.appointmentsAsClient).toHaveLength(1);
         expect(allAppointments2.appointmentsAsClient).toContain(appointment);
@@ -776,11 +589,7 @@ describe('FindAllAppointmentsForuserService', () => {
             appointment2,
         );
 
-        const allAppointments3 = await findAllAppointmentsForUserService.execute(
-            {
-                userId: customer.id,
-            },
-        );
+        // allAppointments3 (customer)
         expect(allAppointments3.appointmentsAsClient).toHaveLength(2);
         expect(allAppointments3.appointmentsAsClient).toContain(appointment2);
         expect(allAppointments3.appointmentsAsClient).toContain(appointment3);
