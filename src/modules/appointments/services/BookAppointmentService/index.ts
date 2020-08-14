@@ -45,8 +45,6 @@ class BookAppointmentService {
             end,
         });
 
-        console.log('can be booked');
-
         const newAppointment = this.appointmentsRepository.create({
             fromAvailableTimeId,
             forUserId,

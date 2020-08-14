@@ -38,7 +38,7 @@ export default class FakeAvailableTimeForAppointmentsRepository
     public async findAllFromUserId({
         userId,
     }: IFindAllAvailableTimeFromUserIdDTO): Promise<
-        AvailableTimeForAppointments[] | undefined
+        AvailableTimeForAppointments[]
     > {
         const availableTimeForUser = this.fakeAvailableTimeRepository.filter(
             availableTime => availableTime.from_user_id === userId,

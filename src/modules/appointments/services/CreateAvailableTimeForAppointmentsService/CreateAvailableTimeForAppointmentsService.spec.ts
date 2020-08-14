@@ -32,7 +32,8 @@ describe('Create Available Time For Appointment', () => {
             password: '123456',
         });
 
-        startTimestamp = new Date();
+        const now = new Date();
+        startTimestamp = new Date(new Date().setMinutes(now.getMinutes() + 1));
         endTimestamp = new Date(
             new Date().setHours(startTimestamp.getHours() + 1),
         );

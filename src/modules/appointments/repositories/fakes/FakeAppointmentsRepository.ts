@@ -5,12 +5,17 @@ import IFindAppointmentBetweenDatesForUserDTO from '@modules/appointments/dtos/I
 import IFindAllAppointmentsForUserIdDTO from '@modules/appointments/dtos/IFindAllAppointmentsForUserIdDTO';
 import IAllAppointmentsForUserId from '@modules/appointments/dtos/IAllAppointmentsForUserId';
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
+import IAvailableTimeForAppointmentsRepository from '@modules/appointments/repositories/IAvailableTimeForAppointmentsRepository';
 
 import { uuid } from 'uuidv4';
+import AvailableTime from '@modules/appointments/infra/typeorm/entities/AvailableTimeForAppointments';
 
 export default class FakeAppointmentsRepository
     implements IAppointmentsRepository {
     private fakeAppointmentsRepository: Appointment[] = [];
+    private fakeAvailableTimeForAppointmentsRepository: Array<
+        AvailableTime
+    > = [];
 
     public async create({
         fromAvailableTimeId,
@@ -91,18 +96,41 @@ export default class FakeAppointmentsRepository
     public async findAllForUserId({
         userId,
     }: IFindAllAppointmentsForUserIdDTO): Promise<IAllAppointmentsForUserId> {
+        // Note: Remember to use the connect repo class method
+
+        // get the appointments as client
         const appointmentsAsClient = await this.fakeAppointmentsRepository.filter(
             appointment => {
                 return appointment.for_user_id === userId;
             },
         );
 
-        const appointmentsAsServiceProvider = await this.fakeAppointmentsRepository.filter(
-            appointment => {
-                return (
-                    appointment.AppointmentFromAvailableTime.from_user_id ===
-                    userId
-                );
+        // get the appointments as service providers in 3 parts:
+        const appointmentsAsServiceProvider: Appointment[] = [];
+
+        // part 1 - searches another repository for
+        // available times as service provider
+        await this.fakeAvailableTimeForAppointmentsRepository.forEach(
+            availableTime => {
+                if (availableTime.from_user_id === userId) {
+                    // part 2 - if found, searches the original appointments
+                    // repository for the corresponding booking
+                    const appointmentAsServiceProvider = this.fakeAppointmentsRepository.find(
+                        appointment => {
+                            return (
+                                appointment.from_available_time_id ===
+                                availableTime.id
+                            );
+                        },
+                    );
+
+                    // part 3 - if exists, pushes it into the array
+                    if (appointmentAsServiceProvider) {
+                        appointmentsAsServiceProvider.push(
+                            appointmentAsServiceProvider,
+                        );
+                    }
+                }
             },
         );
 
@@ -112,5 +140,9 @@ export default class FakeAppointmentsRepository
         };
 
         return allAppointments;
+    }
+
+    public registerAvailableTime(availableTime: AvailableTime) {
+        this.fakeAvailableTimeForAppointmentsRepository.push(availableTime);
     }
 }

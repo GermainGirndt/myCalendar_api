@@ -14,7 +14,7 @@ export default interface IAvailableTimeForAppointmentsRepository {
     findAllFromUserId({
         userId,
     }: IFindAllAvailableTimeFromUserIdDTO): Promise<
-        AvailableTimeForAppointments[] | undefined
+        AvailableTimeForAppointments[]
     >;
 
     findById({

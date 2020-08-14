@@ -47,7 +47,7 @@ export default class AvailableTimeForAppointmentsRepository
     public async findAllFromUserId({
         userId,
     }: IFindAllAvailableTimeFromUserIdDTO): Promise<
-        AvailableTimeForAppointments[] | undefined
+        AvailableTimeForAppointments[]
     > {
         const availableTimes = await this.ormRepository.find({
             where: { from_user_id: userId },
