@@ -20,5 +20,5 @@ app.use(express.json());
 app.use(routes);
 app.use(errorCatcher);
 app.listen(3003, () => {
-    console.log('Server started at port 3003!');
+    console.log('🚀 Server started at port 3003! 🌟');
 });
