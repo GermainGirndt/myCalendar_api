@@ -28,11 +28,13 @@ class CreateUserService {
         surname,
         password,
         email,
-    }: ICreateUserDTO): Promise<User | undefined> {
+    }: ICreateUserDTO): Promise<User> {
         await checkIfUserExists({
             usersRepository: this.usersRepository,
             email,
         });
+
+        // create email and password validation
 
         const hashedPassword = await this.hashProvider.generateHash(password);
 

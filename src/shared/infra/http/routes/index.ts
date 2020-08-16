@@ -1,13 +1,15 @@
 import { Router } from 'express';
 
-import appointments from '@modules/appointments/infra/http/routes/appointments.routes';
-import availableTimeForAppointments from '@modules/appointments/infra/http/routes/availableTimeForAppointments.routes';
-import users from '@modules/users/infra/http/routes/users.routes';
+import appointmentsRouter from '@modules/appointments/infra/http/routes/appointments.routes';
+import availableTimeForAppointmentsRouter from '@modules/appointments/infra/http/routes/availableTimeForAppointments.routes';
+import usersRouter from '@modules/users/infra/http/routes/users.routes';
+import sessionsRouter from '@modules/users/infra/http/routes/sessions.routes';
 
 const routes = Router();
 
-routes.use('/users', users);
-routes.use('/available_time', availableTimeForAppointments);
-routes.use('/appointments', appointments);
+routes.use('/users', usersRouter);
+routes.use('/sessions', sessionsRouter);
+routes.use('/available_time', availableTimeForAppointmentsRouter);
+routes.use('/appointments', appointmentsRouter);
 
 export default routes;
